@@ -61,7 +61,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(12
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .feature{padding:13px;border:1px solid var(--border);border-radius:15px;background:rgba(23,33,58,.65)}
 .feature b{display:block;font-size:13px;margin-bottom:4px}.feature span{font-size:11px;color:var(--muted);line-height:1.4}
-.complex-fields{display:none}.complex-fields.show{display:block}
+.complex-fields{display:none}.complex-fields.show{display:block}.support-panel{display:none}.support-panel.show{display:block}.support-box{padding:18px;border:1px solid var(--border);border-radius:15px;background:linear-gradient(135deg,#101a30,#0e172a)}.support-phone{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:13px 16px;border-radius:12px;background:#18223a;color:var(--text);text-decoration:none;font-weight:800;border:1px solid var(--border)}.support-phone:hover{border-color:var(--accent);filter:brightness(1.08)}.lang-add{padding:8px 10px;background:#18223a;color:#dce4f7;border:1px solid var(--border);cursor:pointer;font-size:12px}.modal{display:none;position:fixed;inset:0;background:rgba(3,7,16,.78);z-index:20;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-card{width:min(680px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.modal-card h2{margin:0 0 7px}.modal-card p{color:var(--muted);font-size:13px;line-height:1.5}.modal-card textarea{width:100%;min-height:190px;resize:vertical;padding:12px 14px;background:#0e1629;color:var(--text);border:1px solid var(--border);border-radius:12px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:12px}
 footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:11px;text-align:center}
 @media(max-width:850px){.grid{grid-template-columns:1fr}.features{grid-template-columns:1fr}.answer{font-size:25px}}
 </style>
@@ -78,6 +78,8 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
     <option value="bn">বাংলা</option><option value="pt">Português</option><option value="ru" selected>Русский</option>
     <option value="ur">اردو</option>
   </select>
+  <button class="lang-add" id="addLanguageBtn" title="Добавить язык">＋ Язык</button>
+  <button class="lang-add" id="supportBtn" title="Поддержка">☎ Поддержка</button>
 </header>
 
 <main>
@@ -151,6 +153,13 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
   </div>
   <div class="panel" id="steps"></div>
   <div class="panel" id="info" style="display:none"></div>
+  <div class="support-panel" id="supportPanel">
+    <div class="support-box">
+      <strong>Поддержка</strong>
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">Если у вас есть вопрос или проблема с калькулятором, свяжитесь с поддержкой.</div>
+      <a class="support-phone" id="supportPhone" href="tel:+70000000000">☎ <span id="supportPhoneText">+7 000 000-00-00</span></a>
+    </div>
+  </div>
 
   <div class="features">
     <div class="feature"><b id="f1">Большие числа</b><span id="f1s">BigInt для целых чисел без потери точности.</span></div>
@@ -162,8 +171,35 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
 </main>
 <footer id="footer">Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.</footer>
 
+<div class="modal" id="languageModal">
+  <div class="modal-card">
+    <h2>Добавить язык</h2>
+    <p>Новый язык сохраняется в этом браузере. Укажите код и название языка, затем вставьте JSON-переводы. Можно взять существующий язык за основу и изменить нужные строки.</p>
+    <div class="row"><div class="field"><label>Код языка</label><input id="newLangCode" placeholder="de"></div><div class="field"><label>Название в списке</label><input id="newLangName" placeholder="Deutsch"></div></div>
+    <div class="field"><label>Переводы JSON</label><textarea id="newLangJson" spellcheck="false">{
+  "title": "Project-Calculator",
+  "subtitle": "exact and numerical root extraction",
+  "type": "Problem type", "real": "Real root", "complex": "Complex root",
+  "number": "Number", "degree": "Root degree n", "accuracy": "Decimal places", "method": "Mode",
+  "auto": "Automatic — exact where possible", "numeric": "Numerical — Newton", "analytic": "Analytical — radical / exact answer",
+  "calc": "Extract root", "clear": "Reset", "result": "Result", "steps": "Steps", "info": "Method",
+  "ready": "ready", "exact": "exact integer result", "numericMeta": "numerical result by Newton's method", "radical": "analytical form",
+  "f1": "Huge numbers", "f1s": "BigInt handles huge integers without rounding.", "f2": "Complex roots", "f2s": "All n complex roots via polar form.",
+  "f3": "Precision", "f3s": "Choose decimal places and Newton iterations.", "footer": "Runs locally in your browser.",
+  "realPart": "Real part a", "imagPart": "Imaginary part b", "methodInfo": "Newton method for root extraction.", "noRoot": "An even-degree root of a negative number has no real value."
+}</textarea></div>
+    <div class="modal-actions"><button class="secondary" id="cancelLanguage">Отмена</button><button class="primary" id="saveLanguage">Добавить язык</button></div>
+  </div>
+</div>
+
 <script>
-const $=id=>document.getElementById(id);
+const $=id=>document.getElementById(id);const SUPPORT_PHONE = "+7 000 000-00-00"; // ← ЗАМЕНИТЕ НА СВОЙ НОМЕР
+const CUSTOM_LANG_KEY = "projectCalculatorCustomLanguages";
+function getCustomLanguages(){try{return JSON.parse(localStorage.getItem(CUSTOM_LANG_KEY)||"{}")}catch(e){return {}}}
+function saveCustomLanguages(obj){localStorage.setItem(CUSTOM_LANG_KEY,JSON.stringify(obj))}
+function rebuildLanguageList(){const select=$("language"),custom=getCustomLanguages();Object.keys(custom).forEach(code=>{if(![...select.options].some(o=>o.value===code)){const o=document.createElement("option");o.value=code;o.textContent=custom[code].name||code;select.appendChild(o)}})}
+function addCustomLanguage(){const code=$("newLangCode").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"");const name=$("newLangName").value.trim();if(!code||!name){alert("Укажите код и название языка.");return}let translations;try{translations=JSON.parse($("newLangJson").value)}catch(e){alert("Ошибка в JSON переводов.");return}const custom=getCustomLanguages();custom[code]={name,...tr.ru,...translations};saveCustomLanguages(custom);rebuildLanguageList();$("language").value=code;$("languageModal").classList.remove("show");applyLanguage(code)}
+
 const tr={
 ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
 en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
@@ -290,7 +326,8 @@ function calculate(){ $("type").value==="complex"?calculateComplex():calculateRe
 
 let T=tr.ru;
 function applyLanguage(lang){
-  T=tr[lang]||tr.ru;
+  const custom=getCustomLanguages();
+  T=custom[lang]||tr[lang]||tr.ru;
   const keys=["title","subtitle","typeLabel","numberLabel","degreeLabel","accuracyLabel","methodLabel","calculate","clear","resultTitle","stepsTab","infoTab","f1","f1s","f2","f2s","f3","f3s","footer","realPartLabel","imagPartLabel"];
   const map={title:"title",subtitle:"subtitle",typeLabel:"type",numberLabel:"number",degreeLabel:"degree",accuracyLabel:"accuracy",methodLabel:"method",calculate:"calc",clear:"clear",resultTitle:"result",stepsTab:"steps",infoTab:"info",f1:"f1",f1s:"f1s",f2:"f2",f2s:"f2s",f3:"f3",f3s:"f3s",footer:"footer",realPartLabel:"realPart",imagPartLabel:"imagPart"};
   keys.forEach(k=>{if($(k)&&T[map[k]])$(k).textContent=T[map[k]]});
@@ -300,12 +337,21 @@ function applyLanguage(lang){
   document.documentElement.lang=lang;
   document.body.dir=(lang==="ar"||lang==="ur")?"rtl":"ltr";
 }
+$("supportPhoneText").textContent=SUPPORT_PHONE;
+$("supportPhone").href="tel:"+SUPPORT_PHONE.replace(/[^\d+]/g,"");
+rebuildLanguageList();
+$("addLanguageBtn").onclick=()=>$("languageModal").classList.add("show");
+$("cancelLanguage").onclick=()=>$("languageModal").classList.remove("show");
+$("languageModal").addEventListener("click",e=>{if(e.target.id==="languageModal")e.currentTarget.classList.remove("show")});
+$("saveLanguage").onclick=addCustomLanguage;
+
 $("calculate").onclick=calculate;
 $("clear").onclick=()=>{$("number").value="1048576";$("degree").value=2;$("accuracy").value=12;$("realPart").value=3;$("imagPart").value=4;calculate()};
 $("type").onchange=()=>{$("complexFields").classList.toggle("show",$("type").value==="complex");$("number").parentElement.style.display=$("type").value==="complex"?"none":"block";calculate()};
 $("language").onchange=e=>applyLanguage(e.target.value);
 document.querySelectorAll(".preset").forEach(b=>b.onclick=()=>{$("number").value=b.dataset.value;calculate()});
-document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");$("steps").style.display=t.dataset.tab==="steps"?"block":"none";$("info").style.display=t.dataset.tab==="info"?"block":"none"});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");$("steps").style.display=t.dataset.tab==="steps"?"block":"none";$("info").style.display=t.dataset.tab==="info"?"block":"none";$("supportPanel").classList.remove("show")});
+$("supportBtn").onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));$("steps").style.display="none";$("info").style.display="none";$("supportPanel").classList.add("show")};
 ["number","degree","accuracy","realPart","imagPart","method"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")calculate()}));
 applyLanguage("ru"); calculate();
 </script>
