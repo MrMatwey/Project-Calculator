@@ -383,11 +383,25 @@ function calculateReal(){
   const Atext=$("number").value.trim(),n=Math.max(2,Math.floor(Number($("degree").value))),digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value)))),mode=$("method").value;
   if(!Atext||!Number.isFinite(n)){showError("Некорректные параметры");return}
 
-  // Буквенная ветка: разбираем полином, не отправляя его в численный parser.
-  if(/[A-Za-z]/.test(Atext)){
-    try{showSymbolic(parseSymbolic(Atext),n,Atext);return}
-    catch(e){showError(e.message||"Некорректное буквенное выражение.");return}
+  // Буквенная ветка: разбираем только настоящие полиномы.
+  // Имена математических функций (sin, cos, sqrt, ...) и константы pi/e
+  // должны идти в обычный численный вычислитель.
+  const hasLetters=/[A-Za-z]/.test(Atext);
+  const hasMathFunction=/(^|[^A-Za-z])(sqrt|cbrt|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh|ln|log|abs|exp)\s*\(/i.test(Atext);
+  const onlyConstants=!hasMathFunction && /(^|[^A-Za-z])(pi|e)(?=[^A-Za-z]|$)/i.test(Atext);
+
+  if(hasLetters && !hasMathFunction && !onlyConstants){
+    try{
+      showSymbolic(parseSymbolic(Atext),n,Atext);
+      return;
+    }catch(e){
+      showError(e.message||"Некорректное буквенное выражение.");
+      return;
+    }
   }
+
+  // В выражениях с sin/cos/sqrt/pi/e используем численный parser.
+  // Например: sin(pi/2) -> 1, sqrt((3+1)**2) -> 4.
 
   const clean=Atext.replaceAll(",","");
   const integer=/^[+-]?\d+$/.test(clean);
@@ -420,8 +434,15 @@ function numericReal(A,n,digits,label){
   }
   $("expression").textContent=`√[${n}](${label})`;
   $("answer").className="answer";
-  $("answer").textContent=formatNumber(x,digits);
-  $("meta").textContent=T.numericMeta;
+  if(A>0 && n%2===0){
+    $("answer").innerHTML=`x₁ = ${formatNumber(-Math.abs(x),digits)}<br>x₂ = ${formatNumber(Math.abs(x),digits)}`;
+    $("answer").className="answer small";
+    $("meta").textContent="2 действительных корня";
+    steps.push(`Итог: x₁ = ${formatNumber(-Math.abs(x),digits)}, x₂ = ${formatNumber(Math.abs(x),digits)}.`);
+  }else{
+    $("answer").textContent=formatNumber(x,digits);
+    $("meta").textContent=T.numericMeta;
+  }
   $("badge").textContent=T.ready;
   renderSteps(steps.slice(-Math.min(12,steps.length)));
 }
