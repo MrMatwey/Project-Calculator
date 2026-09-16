@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,17 +7,17 @@
 <title>Project-Calculator — извлечение корней</title>
 <style>
 :root{
---bg:#0b1020; --panel:#121a2e; --panel2:#17213a; --text:#eef3ff;
---muted:#9eabc6; --accent:#7c8cff; --accent2:#55d6be; --danger:#ff7185;
---border:#293552; --shadow:0 20px 60px rgba(0,0,0,.35);
+  --bg:#0b1020; --panel:#121a2e; --panel2:#17213a; --text:#eef3ff;
+  --muted:#9eabc6; --accent:#7c8cff; --accent2:#55d6be; --danger:#ff7185;
+  --border:#293552; --shadow:0 20px 60px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
 body{
-margin:0; min-height:100vh; color:var(--text);
-font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:
-radial-gradient(circle at 15% 10%,rgba(124,140,255,.18),transparent 28%),
-radial-gradient(circle at 85% 80%,rgba(85,214,190,.12),transparent 25%),var(--bg);
+  margin:0; min-height:100vh; color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(124,140,255,.18),transparent 28%),
+    radial-gradient(circle at 85% 80%,rgba(85,214,190,.12),transparent 25%),var(--bg);
 }
 header{max-width:1180px;margin:auto;padding:28px 22px 10px;display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand{display:flex;align-items:center;gap:12px}
@@ -28,7 +29,7 @@ main{max-width:1180px;margin:auto;padding:16px 22px 42px}
 .card{background:rgba(18,26,46,.92);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);padding:20px}
 label{display:block;font-size:13px;color:var(--muted);margin:0 0 8px}
 input,select,button{
-font:inherit;border-radius:12px;border:1px solid var(--border);outline:none;
+  font:inherit;border-radius:12px;border:1px solid var(--border);outline:none;
 }
 input,select{width:100%;padding:13px 14px;background:#0e1629;color:var(--text)}
 input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,140,255,.12)}
@@ -44,8 +45,8 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(12
 .result-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .badge{font-size:11px;padding:6px 9px;border-radius:999px;background:rgba(85,214,190,.1);color:var(--accent2);border:1px solid rgba(85,214,190,.25)}
 .result{
-margin-top:14px;min-height:145px;border-radius:17px;background:#0b1325;border:1px solid #253250;
-padding:20px;display:flex;flex-direction:column;justify-content:center
+  margin-top:14px;min-height:145px;border-radius:17px;background:#0b1325;border:1px solid #253250;
+  padding:20px;display:flex;flex-direction:column;justify-content:center
 }
 .expression{font-size:15px;color:var(--muted);word-break:break-all}
 .answer{font-size:32px;font-weight:850;line-height:1.2;margin-top:10px;word-break:break-word}
@@ -68,121 +69,130 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
 </head>
 <body>
 <header>
-<div class="brand">
-<div class="logo">√</div>
-<div><h1 id="title">Project-Calculator</h1><div class="subtitle" id="subtitle">точное и численное извлечение корней</div></div>
-</div>
-<select class="lang" id="language" aria-label="Language">
-<option value="en">English</option><option value="zh">中文</option><option value="hi">हिन्दी</option>
-<option value="es">Español</option><option value="fr">Français</option><option value="ar">العربية</option>
-<option value="bn">বাংলা</option><option value="pt">Português</option><option value="ru" selected>Русский</option>
-<option value="ur">اردو</option>
-</select>
-<button class="lang-add" id="addLanguageBtn" title="Добавить язык">＋ Язык</button>
-<button class="lang-add" id="supportBtn" title="Поддержка">☎ Поддержка</button>
+  <div class="brand">
+    <div class="logo">√</div>
+    <div><h1 id="title">Project-Calculator</h1><div class="subtitle" id="subtitle">точное и численное извлечение корней</div></div>
+  </div>
+  <select class="lang" id="language" aria-label="Language">
+    <option value="en">English</option><option value="zh">中文</option><option value="hi">हिन्दी</option>
+    <option value="es">Español</option><option value="fr">Français</option><option value="ar">العربية</option>
+    <option value="bn">বাংলা</option><option value="pt">Português</option><option value="ru" selected>Русский</option>
+    <option value="ur">اردو</option>
+  </select>
+  <button class="lang-add" id="addLanguageBtn" title="Добавить язык">＋ Язык</button>
+  <button class="lang-add" id="supportBtn" title="Поддержка">☎ Поддержка</button>
 </header>
+
 <main>
 <div class="grid">
 <section class="card">
-<div class="field">
-<label id="typeLabel">Тип задачи</label>
-<select id="type">
-<option value="real">Действительный корень</option>
-<option value="complex">Комплексный корень</option>
-</select>
-</div>
-<div class="field">
-<label id="numberLabel">Число или выражение</label>
-<input id="number" value="4" inputmode="text" autocomplete="off"
-       placeholder="Например: (3+1)**2 или sin(pi/2)">
-<div class="presets">
-<button class="preset" data-value="4">4</button>
-<button class="preset" data-value="(a+b)**2">(a+b)²</button>
-<button class="preset" data-value="sin(pi/2)">sin(π/2)</button>
-<button class="preset" data-value="cos(0)">cos(0)</button>
-</div>
-</div>
-<div class="row">
-<div class="field">
-<label id="degreeLabel">Степень корня n</label>
-<input id="degree" type="number" min="2" max="1000" value="2">
-</div>
-<div class="field">
-<label id="accuracyLabel">Знаков после запятой</label>
-<input id="accuracy" type="number" min="0" max="50" value="12">
-</div>
-</div>
-<div class="complex-fields" id="complexFields">
-<div class="row">
-<div class="field"><label id="realPartLabel">Действительная часть a</label><input id="realPart" value="3"></div>
-<div class="field"><label id="imagPartLabel">Мнимая часть b</label><input id="imagPart" value="4"></div>
-</div>
-</div>
-<div class="field">
-<label id="methodLabel">Режим</label>
-<select id="method">
-<option value="auto">Автоматический — точно где возможно</option>
-<option value="numeric">Численный — Newton</option>
-<option value="analytic">Аналитический — радикал / точный ответ</option>
-</select>
-</div>
-<div class="actions">
-<button class="primary" id="calculate">Извлечь корень</button>
-<button class="secondary" id="clear">Сбросить</button>
-</div>
+  <div class="field">
+    <label id="typeLabel">Тип задачи</label>
+    <select id="type">
+      <option value="real">Действительный корень</option>
+      <option value="complex">Комплексный корень</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label id="numberLabel">Число или выражение</label>
+    <input id="number" value="4" inputmode="decimal" autocomplete="off">
+    <div class="presets">
+      <button class="preset" data-value="4">4</button><button class="preset" data-value="(a+b)**2">(a+b)²</button><button class="preset" data-value="sin(pi/2)">sin(π/2)</button>
+      <button class="preset" data-value="1000000000000000000000000000000">10³⁰</button>
+      <button class="preset" data-value="123456789012345678901234567890">30 цифр</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label id="degreeLabel">Степень корня n</label>
+      <input id="degree" type="number" min="2" max="1000" value="2">
+    </div>
+    <div class="field">
+      <label id="accuracyLabel">Знаков после запятой</label>
+      <input id="accuracy" type="number" min="0" max="50" value="12">
+    </div>
+  </div>
+
+  <div class="complex-fields" id="complexFields">
+    <div class="row">
+      <div class="field"><label id="realPartLabel">Действительная часть a</label><input id="realPart" value="3"></div>
+      <div class="field"><label id="imagPartLabel">Мнимая часть b</label><input id="imagPart" value="4"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label id="methodLabel">Режим</label>
+    <select id="method">
+      <option value="auto">Автоматический — точно где возможно</option>
+      <option value="numeric">Численный — Newton</option>
+      <option value="analytic">Аналитический — радикал / точный ответ</option>
+    </select>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="calculate">Извлечь корень</button>
+    <button class="secondary" id="clear">Сбросить</button>
+  </div>
 </section>
+
 <section class="card">
-<div class="result-top">
-<div><strong id="resultTitle">Результат</strong></div>
-<div class="badge" id="badge">готово</div>
-</div>
-<div class="result" id="result">
-<div class="expression" id="expression">√1048576</div>
-<div class="answer" id="answer">1024</div>
-<div class="meta" id="meta">точный целый результат</div>
-</div>
-<div class="tabs">
-<button class="tab active" data-tab="steps" id="stepsTab">Шаги</button>
-<button class="tab" data-tab="info" id="infoTab">О методе</button>
-</div>
-<div class="panel" id="steps"></div>
-<div class="panel" id="info" style="display:none"></div>
-<div class="support-panel" id="supportPanel">
-<div class="support-box">
-<strong>Поддержка</strong>
-<div style="margin-top:8px;color:var(--muted);font-size:13px">Если у вас есть вопрос или проблема с калькулятором, свяжитесь с поддержкой.</div>
-<a class="support-phone" id="supportPhone" href="[tel:+7 000 000-00-00](<tel:+7 000 000-00-00>)">☎ <span id="supportPhoneText">+7 000 000-00-00</span></a>
-</div>
-</div>
-<div class="features">
-<div class="feature"><b id="f1">Большие числа</b><span id="f1s">BigInt для целых чисел без потери точности.</span></div>
-<div class="feature"><b id="f2">Комплексные</b><span id="f2s">Все n комплексных корней через полярную форму.</span></div>
-<div class="feature"><b id="f3">Точность</b><span id="f3s">Настраиваемое число знаков и итерации Newton.</span></div>
-</div>
+  <div class="result-top">
+    <div><strong id="resultTitle">Результат</strong></div>
+    <div class="badge" id="badge">готово</div>
+  </div>
+  <div class="result" id="result">
+    <div class="expression" id="expression">√1048576</div>
+    <div class="answer" id="answer">1024</div>
+    <div class="meta" id="meta">точный целый результат</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="steps" id="stepsTab">Шаги</button>
+    <button class="tab" data-tab="info" id="infoTab">О методе</button>
+  </div>
+  <div class="panel" id="steps"></div>
+  <div class="panel" id="info" style="display:none"></div>
+  <div class="support-panel" id="supportPanel">
+    <div class="support-box">
+      <strong>Поддержка</strong>
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">Если у вас есть вопрос или проблема с калькулятором, свяжитесь с поддержкой.</div>
+      <a class="support-phone" id="supportPhone" href="tel:+7 000 000-00-00">☎ <span id="supportPhoneText">+7 000 000-00-00</span></a>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature"><b id="f1">Большие числа</b><span id="f1s">BigInt для целых чисел без потери точности.</span></div>
+    <div class="feature"><b id="f2">Комплексные</b><span id="f2s">Все n комплексных корней через полярную форму.</span></div>
+    <div class="feature"><b id="f3">Точность</b><span id="f3s">Настраиваемое число знаков и итерации Newton.</span></div>
+  </div>
 </section>
 </div>
 </main>
 <footer id="footer">Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.</footer>
+
 <div class="modal" id="languageModal">
-<div class="modal-card">
-<h2>Добавить язык</h2>
-<p>Новый язык сохраняется в этом браузере. Укажите код и название языка, затем вставьте JSON-переводы. Можно взять существующий язык за основу и изменить нужные строки.</p>
-<div class="row"><div class="field"><label>Код языка</label><input id="newLangCode" placeholder="de"></div><div class="field"><label>Название в списке</label><input id="newLangName" placeholder="Deutsch"></div></div>
-<div class="field"><label>Переводы JSON</label><textarea id="newLangJson" spellcheck="false">{
-"title": "Project-Calculator",
-"subtitle": "exact and numerical root extraction",
-"type": "Problem type", "real": "Real root", "complex": "Complex root",
-"number": "Number", "degree": "Root degree n", "accuracy": "Decimal places", "method": "Mode",
-"auto": "Automatic — exact where possible", "numeric": "Numerical — Newton", "analytic": "Analytical — radical / exact answer",
-"calc": "Extract root", "clear": "Reset", "result": "Result", "steps": "Steps", "info": "Method",
-"ready": "ready", "exact": "exact integer result", "numericMeta": "numerical result by Newton's method", "radical": "analytical form",
-"f1": "Huge numbers", "f1s": "BigInt handles huge integers without rounding.", "f2": "Complex roots", "f2s": "All n complex roots via polar form.",
-"f3": "Precision", "f3s": "Choose decimal places and Newton iterations.", "footer": "Runs locally in your browser.",
-"realPart": "Real part a", "imagPart": "Imaginary part b", "methodInfo": "Newton method for root extraction.", "noRoot": "An even-degree root of a negative number has no real value."
+  <div class="modal-card">
+    <h2>Добавить язык</h2>
+    <p>Новый язык сохраняется в этом браузере. Укажите код и название языка, затем вставьте JSON-переводы. Можно взять существующий язык за основу и изменить нужные строки.</p>
+    <div class="row"><div class="field"><label>Код языка</label><input id="newLangCode" placeholder="de"></div><div class="field"><label>Название в списке</label><input id="newLangName" placeholder="Deutsch"></div></div>
+    <div class="field"><label>Переводы JSON</label><textarea id="newLangJson" spellcheck="false">{
+  "title": "Project-Calculator",
+  "subtitle": "exact and numerical root extraction",
+  "type": "Problem type", "real": "Real root", "complex": "Complex root",
+  "number": "Number", "degree": "Root degree n", "accuracy": "Decimal places", "method": "Mode",
+  "auto": "Automatic — exact where possible", "numeric": "Numerical — Newton", "analytic": "Analytical — radical / exact answer",
+  "calc": "Extract root", "clear": "Reset", "result": "Result", "steps": "Steps", "info": "Method",
+  "ready": "ready", "exact": "exact integer result", "numericMeta": "numerical result by Newton's method", "radical": "analytical form",
+  "f1": "Huge numbers", "f1s": "BigInt handles huge integers without rounding.", "f2": "Complex roots", "f2s": "All n complex roots via polar form.",
+  "f3": "Precision", "f3s": "Choose decimal places and Newton iterations.", "footer": "Runs locally in your browser.",
+  "realPart": "Real part a", "imagPart": "Imaginary part b", "methodInfo": "Newton method for root extraction.", "noRoot": "An even-degree root of a negative number has no real value."
 }</textarea></div>
-<div class="modal-actions"><button class="secondary" id="cancelLanguage">Отмена</button><button class="primary" id="saveLanguage">Добавить язык</button></div>
+    <div class="modal-actions"><button class="secondary" id="cancelLanguage">Отмена</button><button class="primary" id="saveLanguage">Добавить язык</button></div>
+  </div>
 </div>
-</div>
+
 <script>
 const $=id=>document.getElementById(id);const SUPPORT_PHONE = "+7 000 000-00-00";
 const CUSTOM_LANG_KEY = "projectCalculatorCustomLanguages";
@@ -190,10 +200,11 @@ function getCustomLanguages(){try{return JSON.parse(localStorage.getItem(CUSTOM_
 function saveCustomLanguages(obj){localStorage.setItem(CUSTOM_LANG_KEY,JSON.stringify(obj))}
 function rebuildLanguageList(){const select=$("language"),custom=getCustomLanguages();Object.keys(custom).forEach(code=>{if(![...select.options].some(o=>o.value===code)){const o=document.createElement("option");o.value=code;o.textContent=custom[code].name||code;select.appendChild(o)}})}
 function addCustomLanguage(){const code=$("newLangCode").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"");const name=$("newLangName").value.trim();if(!code||!name){alert("Укажите код и название языка.");return}let translations;try{translations=JSON.parse($("newLangJson").value)}catch(e){alert("Ошибка в JSON переводов.");return}const custom=getCustomLanguages();custom[code]={name,...tr.ru,...translations};saveCustomLanguages(custom);rebuildLanguageList();$("language").value=code;$("languageModal").classList.remove("show");applyLanguage(code)}
+
 const tr={
-ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число или буквенное выражение",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
-en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number or symbolic expression",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
-zh:{title:"Project-Calculator",subtitle:"精确与数值开方",type:"题目类型",real:"实数根",complex:"复数根",number:"数字或字母表达式",degree:"根的次数 n",accuracy:"小数位",method:"模式",auto:"自动 — 可精确时优先",numeric:"数值 — Newton",analytic:"解析 — 根式 / 精确结果",calc:"计算根",clear:"重置",result:"结果",steps:"步骤",info:"方法",ready:"就绪",exact:"精确整数结果",numericMeta:"Newton 数值结果",radical:"解析根式",f1:"超大整数",f1s:"使用 BigInt 避免整数舍入误差。",f2:"复数根",f2s:"使用极坐标计算全部 n 个复根。",f3:"精度",f3s:"可设置小数位和 Newton 迭代。",footer:"完全在浏览器本地运行。小数受 JavaScript IEEE-754 精度限制。",realPart:"实部 a",imagPart:"虚部 b",methodInfo:"Newton 迭代：xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n。复根使用模和幅角。",noRoot:"偶数次根不能得到负数的实数结果。"},
+ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число или выражение",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
+en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number or expression",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
+zh:{title:"Project-Calculator",subtitle:"精确与数值开方",type:"题目类型",real:"实数根",complex:"复数根",number:"数字",degree:"根的次数 n",accuracy:"小数位",method:"模式",auto:"自动 — 可精确时优先",numeric:"数值 — Newton",analytic:"解析 — 根式 / 精确结果",calc:"计算根",clear:"重置",result:"结果",steps:"步骤",info:"方法",ready:"就绪",exact:"精确整数结果",numericMeta:"Newton 数值结果",radical:"解析根式",f1:"超大整数",f1s:"使用 BigInt 避免整数舍入误差。",f2:"复数根",f2s:"使用极坐标计算全部 n 个复根。",f3:"精度",f3s:"可设置小数位和 Newton 迭代。",footer:"完全在浏览器本地运行。小数受 JavaScript IEEE-754 精度限制。",realPart:"实部 a",imagPart:"虚部 b",methodInfo:"Newton 迭代：xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n。复根使用模和幅角。",noRoot:"偶数次根不能得到负数的实数结果。"},
 hi:{title:"Project-Calculator",subtitle:"सटीक और संख्यात्मक मूल निकालना",type:"समस्या का प्रकार",real:"वास्तविक मूल",complex:"कॉम्प्लेक्स मूल",number:"संख्या",degree:"मूल की घात n",accuracy:"दशमलव स्थान",method:"मोड",auto:"स्वचालित — जहाँ संभव हो सटीक",numeric:"संख्यात्मक — Newton",analytic:"विश्लेषणात्मक — मूल / सटीक उत्तर",calc:"मूल निकालें",clear:"रीसेट",result:"परिणाम",steps:"चरण",info:"विधि",ready:"तैयार",exact:"सटीक पूर्णांक परिणाम",numericMeta:"Newton से संख्यात्मक परिणाम",radical:"विश्लेषणात्मक रूप",f1:"बड़ी संख्याएँ",f1s:"BigInt बड़े पूर्णांकों को बिना rounding संभालता है।",f2:"कॉम्प्लेक्स",f2s:"ध्रुवीय रूप से सभी n कॉम्प्लेक्स मूल।",f3:"सटीकता",f3s:"दशमलव स्थान और Newton iterations चुनें।",footer:"ब्राउज़र में स्थानीय रूप से चलता है। दशमलव JavaScript IEEE-754 पर निर्भर हैं।",realPart:"वास्तविक भाग a",imagPart:"काल्पनिक भाग b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"सम घात वाले ऋणात्मक मूल का वास्तविक मान नहीं होता।"},
 es:{title:"Project-Calculator",subtitle:"extracción exacta y numérica de raíces",type:"Tipo de problema",real:"Raíz real",complex:"Raíz compleja",number:"Número",degree:"Grado n",accuracy:"Decimales",method:"Modo",auto:"Automático — exacto cuando es posible",numeric:"Numérico — Newton",analytic:"Analítico — radical / exacto",calc:"Extraer raíz",clear:"Restablecer",result:"Resultado",steps:"Pasos",info:"Método",ready:"listo",exact:"resultado entero exacto",numericMeta:"resultado numérico por Newton",radical:"forma analítica",f1:"Números grandes",f1s:"BigInt evita redondeos en enteros enormes.",f2:"Complejos",f2s:"Todas las n raíces complejas mediante forma polar.",f3:"Precisión",f3s:"Elige decimales e iteraciones de Newton.",footer:"Funciona localmente en el navegador.",realPart:"Parte real a",imagPart:"Parte imaginaria b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Una raíz de grado par de un número negativo no es real."},
 fr:{title:"Project-Calculator",subtitle:"extraction exacte et numérique des racines",type:"Type de problème",real:"Racine réelle",complex:"Racine complexe",number:"Nombre",degree:"Degré n",accuracy:"Décimales",method:"Mode",auto:"Automatique — exact si possible",numeric:"Numérique — Newton",analytic:"Analytique — radical / exact",calc:"Extraire la racine",clear:"Réinitialiser",result:"Résultat",steps:"Étapes",info:"Méthode",ready:"prêt",exact:"résultat entier exact",numericMeta:"résultat numérique par Newton",radical:"forme analytique",f1:"Grands nombres",f1s:"BigInt gère les grands entiers sans arrondi.",f2:"Complexes",f2s:"Toutes les n racines complexes en forme polaire.",f3:"Précision",f3s:"Choisissez les décimales et itérations de Newton.",footer:"Fonctionne localement dans le navigateur.",realPart:"Partie réelle a",imagPart:"Partie imaginaire b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Une racine de degré pair d’un nombre négatif n’est pas réelle."},
@@ -202,584 +213,256 @@ bn:{title:"Project-Calculator",subtitle:"নির্ভুল ও সংখ্�
 pt:{title:"Project-Calculator",subtitle:"extração exata e numérica de raízes",type:"Tipo de problema",real:"Raiz real",complex:"Raiz complexa",number:"Número",degree:"Grau n",accuracy:"Casas decimais",method:"Modo",auto:"Automático — exato quando possível",numeric:"Numérico — Newton",analytic:"Analítico — radical / exato",calc:"Extrair raiz",clear:"Redefinir",result:"Resultado",steps:"Passos",info:"Método",ready:"pronto",exact:"resultado inteiro exato",numericMeta:"resultado numérico por Newton",radical:"forma analítica",f1:"Números grandes",f1s:"BigInt evita arredondamento em inteiros enormes.",f2:"Complexos",f2s:"Todas as n raízes complexas pela forma polar.",f3:"Precisão",f3s:"Escolha casas decimais e iterações de Newton.",footer:"Funciona localmente no navegador.",realPart:"Parte real a",imagPart:"Parte imaginária b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Uma raiz de grau par de um número negativo não é real."},
 ur:{title:"Project-Calculator",subtitle:"درست اور عددی جذر نکالنا",type:"مسئلے کی قسم",real:"حقیقی جذر",complex:"مختلط جذر",number:"عدد",degree:"جذر کی طاقت n",accuracy:"اعشاری ہندسے",method:"موڈ",auto:"خودکار — جہاں ممکن ہو درست",numeric:"عددی — Newton",analytic:"تجزیاتی — ریڈیکل / درست جواب",calc:"جذر نکالیں",clear:"ری سیٹ",result:"نتیجہ",steps:"مراحل",info:"طریقہ",ready:"تیار",exact:"درست صحیح عددی نتیجہ",numericMeta:"Newton سے عددی نتیجہ",radical:"تجزیاتی شکل",f1:"بڑے اعداد",f1s:"BigInt بڑے صحیح اعداد کو بغیر rounding سنبھالتا ہے۔",f2:"مختلط اعداد",f2s:"قطبی شکل سے تمام n مختلط جذور۔",f3:"درستگی",f3s:"اعشاری ہندسے اور Newton iterations منتخب کریں۔",footer:"براؤزر میں مقامی طور پر چلتا ہے۔",realPart:"حقیقی حصہ a",imagPart:"خیالی حصہ b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"منفی عدد کا جفت درجے کا جذر حقیقی نہیں ہوتا۔"}
 };
+
 function gcd(a,b){while(b){let t=a%b;a=b;b=t}return a}
 function bigintPow(a,n){let r=1n,b=a;while(n){if(n&1)r*=b;b*=b;n>>=1}return r}
 function integerRootExact(A,n){
-if(A<0n)return null;
-if(A===0n)return 0n;
-let lo=1n,hi=A;
-while(lo<=hi){
-let mid=(lo+hi)>>1n,p=bigintPow(mid,n);
-if(p===A)return mid;
-if(p<A)lo=mid+1n;else hi=mid-1n;
-}
-return null;
-}
-function formatNumber(x,digits){
-if(!Number.isFinite(x))return "∞";
-const s=x.toLocaleString(undefined,{maximumFractionDigits:digits,useGrouping:false});
-return s==="−0"||s==="-0"?"0":s;
-}
-
-/* Безопасный математический парсер.
-   Поддерживает + - * / **, скобки, pi/e и функции.
-   sin/cos/tan используют радианы. */
-const FUNCTIONS={
-sqrt:Math.sqrt,cbrt:Math.cbrt,
-sin:Math.sin,cos:Math.cos,tan:Math.tan,
-asin:Math.asin,acos:Math.acos,atan:Math.atan,
-sinh:Math.sinh,cosh:Math.cosh,tanh:Math.tanh,
-ln:Math.log,log:Math.log10,abs:Math.abs,exp:Math.exp
-};
-const CONSTANTS={pi:Math.PI,e:Math.E};
-
-function tokenizeExpression(input){
-const s=input.replace(/,/g,".").trim(),tokens=[];let i=0;
-while(i<s.length){
-const c=s[i];
-if(/\s/.test(c)){i++;continue}
-if(/[0-9.]/.test(c)){
-let j=i,dots=0;
-while(j<s.length&&/[0-9.]/.test(s[j])){if(s[j]===".")dots++;j++}
-if(dots>1)throw new Error("Некорректное число.");
-if(j<s.length&&/[eE]/.test(s[j])){
-let k=j+1;if(/[+-]/.test(s[k]||""))k++;
-const eStart=k;while(k<s.length&&/[0-9]/.test(s[k]))k++;
-if(k===eStart)throw new Error("Некорректная экспонента.");
-j=k;
-}
-const value=Number(s.slice(i,j));
-if(!Number.isFinite(value))throw new Error("Слишком большое число.");
-tokens.push({type:"number",value});i=j;continue;
-}
-if(/[A-Za-z_]/.test(c)){
-let j=i+1;while(j<s.length&&/[A-Za-z_]/.test(s[j]))j++;
-const name=s.slice(i,j).toLowerCase();
-if(name==="pi"||name==="e")tokens.push({type:"number",value:CONSTANTS[name]});
-else if(FUNCTIONS[name])tokens.push({type:"function",value:name});
-else throw new Error("Неизвестное имя: "+name);
-i=j;continue;
-}
-if(s.startsWith("**",i)){tokens.push({type:"op",value:"**"});i+=2;continue}
-if("+-*/()".includes(c)){tokens.push({type:c==="("||c===")"?"paren":"op",value:c});i++;continue}
-throw new Error("Недопустимый символ: "+c);
-}
-return tokens;
-}
-
-const OP_PRECEDENCE={"+":1,"-":1,"*":2,"/":2,"u+":3,"u-":3,"**":4};
-const RIGHT_ASSOC={"**":true,"u+":true,"u-":true};
-
-function expressionToRPN(input){
-const tokens=tokenizeExpression(input),out=[],stack=[];let expectValue=true;
-if(!tokens.length)throw new Error("Введите число или выражение.");
-for(const token of tokens){
-if(token.type==="number"){out.push(token);expectValue=false;continue}
-if(token.type==="function"){stack.push(token);expectValue=true;continue}
-if(token.type==="paren"){
-if(token.value==="("){stack.push(token);expectValue=true}
-else{
-let found=false;
-while(stack.length){
-const top=stack.pop();
-if(top.type==="paren"&&top.value==="("){found=true;break}
-out.push(top);
-}
-if(!found)throw new Error("Лишняя закрывающая скобка.");
-if(stack.length&&stack[stack.length-1].type==="function")out.push(stack.pop());
-expectValue=false;
-}
-continue;
-}
-let op=token.value;
-if((op==="+"||op==="-")&&expectValue)op=op==="+"?"u+":"u-";
-else if(expectValue)throw new Error("Оператор "+op+" стоит не на месте.");
-const current={type:"op",value:op};
-while(stack.length){
-const top=stack[stack.length-1];
-if(top.type==="function"){out.push(stack.pop());continue}
-if(top.type!=="op")break;
-const p1=OP_PRECEDENCE[op],p2=OP_PRECEDENCE[top.value];
-if(p2>p1||(p1===p2&&!RIGHT_ASSOC[op]))out.push(stack.pop());else break;
-}
-stack.push(current);expectValue=true;
-}
-if(expectValue)throw new Error("Выражение заканчивается оператором.");
-while(stack.length){
-const top=stack.pop();
-if(top.type==="paren")throw new Error("Не закрыта скобка.");
-out.push(top);
-}
-return out;
-}
-
-function evaluateExpression(input){
-const rpn=expressionToRPN(input),stack=[];
-for(const t of rpn){
-if(t.type==="number"){stack.push(t.value);continue}
-if(t.type==="op"){
-if(t.value==="u+"||t.value==="u-"){
-if(stack.length<1)throw new Error("Некорректное выражение.");
-const a=stack.pop();stack.push(t.value==="u-"?-a:a);continue;
-}
-if(stack.length<2)throw new Error("Некорректное выражение.");
-const b=stack.pop(),a=stack.pop();let v;
-if(t.value==="+")v=a+b;
-else if(t.value==="-")v=a-b;
-else if(t.value==="*")v=a*b;
-else if(t.value==="/")v=a/b;
-else if(t.value==="**")v=Math.pow(a,b);
-if(!Number.isFinite(v))throw new Error("Результат выражения не является конечным числом.");
-stack.push(v);continue;
-}
-if(t.type==="function"){
-if(stack.length<1)throw new Error("Функции нужна одна величина.");
-const a=stack.pop(),v=FUNCTIONS[t.value](a);
-if(!Number.isFinite(v))throw new Error("Функция "+t.value+" не определена для этого аргумента.");
-stack.push(v);
-}
-}
-if(stack.length!==1||!Number.isFinite(stack[0]))throw new Error("Не удалось вычислить выражение.");
-return stack[0];
-}
-
-function parseReal(s){
-s=s.trim().replaceAll(",","");
-if(!s)return NaN;
-return Number(s);
-}
-
-function numericReal(A,n,digits,label){
-if(A<0&&n%2===0){showError(T.noRoot);return}
-if(A===0){
-$("expression").textContent=`√[${n}](${label})`;
-$("answer").className="answer";
-$("answer").textContent="0";
-$("meta").textContent="корень x = 0";
-$("badge").textContent=T.ready;
-renderSteps([`1. Выражение вычислено: ${label} = 0.`,`2. Уравнение x^${n} = 0 имеет корень x = 0.`]);
-return;
-}
-const magnitude=Math.pow(Math.abs(A),1/n);
-const roots=(n%2===0&&A>0)?[-magnitude,magnitude]:[A<0?-magnitude:magnitude];
-const steps=[
-`1. Вычисляем выражение: ${label} = ${formatNumber(A,digits+6)}.`,
-`2. Решаем уравнение x^${n} = ${formatNumber(A,digits+6)}.`
-];
-if(roots.length===2)
-steps.push(`3. Степень чётная, поэтому действительных корня два: −${formatNumber(magnitude,digits)} и ${formatNumber(magnitude,digits)}.`);
-else
-steps.push(`3. Действительный корень: ${formatNumber(roots[0],digits)}.`);
-$("expression").textContent=`√[${n}](${label})`;
-$("answer").className=roots.length>1?"answer small":"answer";
-$("answer").innerHTML=roots.map((x,i)=>roots.length>1?`x${i+1} = ${formatNumber(x,digits)}`:formatNumber(x,digits)).join("<br>");
-$("meta").textContent=roots.length>1?"2 действительных корня":"1 действительный корень";
-$("badge").textContent=T.ready;
-renderSteps(steps);
-}
-
-
-/* ===== Символьная алгебра =====
-   Полиномы с буквами a,b,c,...:
-   a+b, 2ab, a**2, (a+b)**2, (a+b)(a-b), ...
-   Алгоритм умеет точно извлекать совершенные n-е степени полиномов.
-*/
-function polyKey(exps){
-  return Object.keys(exps).sort().map(k=>k+"^"+exps[k]).join("|");
-}
-function polyFromTerms(terms){
-  const p={};
-  for(const [vars,coef] of terms){
-    if(Math.abs(coef)<1e-12)continue;
-    const exps={...vars};
-    const key=Object.keys(exps).length?polyKey(exps):"";
-    p[key]=(p[key]||0)+coef;
-    if(Math.abs(p[key])<1e-12)delete p[key];
-  }
-  return p;
-}
-function polyConst(c){return Math.abs(c)<1e-12?{}:{"":c}}
-function polyVar(v){return polyFromTerms([[{[v]:1},1]])}
-function polyClone(p){return {...p}}
-function polyAdd(a,b,sign=1){
-  const r=polyClone(a);
-  for(const k of Object.keys(b)){
-    r[k]=(r[k]||0)+sign*b[k];
-    if(Math.abs(r[k])<1e-10)delete r[k];
-  }
-  return r;
-}
-function polyNeg(a){const r={};for(const k in a)r[k]=-a[k];return r}
-function decodeKey(k){
-  const exps={};
-  if(k)for(const part of k.split("|")){
-    const q=part.lastIndexOf("^");
-    exps[part.slice(0,q)]=Number(part.slice(q+1));
-  }
-  return exps;
-}
-function polyMul(a,b){
-  const r={};
-  for(const ka in a)for(const kb in b){
-    const ea=decodeKey(ka),eb=decodeKey(kb),e={...ea};
-    for(const v in eb)e[v]=(e[v]||0)+eb[v];
-    const k=polyKey(e);
-    r[k]=(r[k]||0)+a[ka]*b[kb];
-  }
-  for(const k of Object.keys(r))if(Math.abs(r[k])<1e-10)delete r[k];
-  return r;
-}
-function polyScale(a,c){const r={};for(const k in a)if(Math.abs(a[k]*c)>1e-12)r[k]=a[k]*c;return r}
-function polyPow(a,n){
-  if(!Number.isInteger(n)||n<0)throw new Error("Степень полинома должна быть целым неотрицательным числом.");
-  let r=polyConst(1),b=a;
-  while(n){if(n%2)r=polyMul(r,b);b=polyMul(b,b);n=Math.floor(n/2)}
-  return r;
-}
-function polyIsZero(a){return Object.keys(a).length===0}
-function polyIsConstant(a){return Object.keys(a).every(k=>k==="")}
-function polyDegree(a){
-  let d=-Infinity;
-  for(const k in a){let s=0;for(const v in decodeKey(k))s+=decodeKey(k)[v];d=Math.max(d,s)}
-  return d===-Infinity?-1:d;
-}
-function monomialMultiplyKey(a,b){
-  const ea=decodeKey(a),eb=decodeKey(b),e={...ea};
-  for(const v in eb)e[v]=(e[v]||0)+eb[v];
-  return polyKey(e);
-}
-function compareMonomialKeys(a,b){
-  const ea=decodeKey(a),eb=decodeKey(b);
-  const va=Object.keys({...ea,...eb}).sort();
-  let da=0,db=0;
-  for(const v of va){da+=ea[v]||0;db+=eb[v]||0}
-  if(da!==db)return da-db;
-  for(let i=va.length-1;i>=0;i--){
-    const v=va[i],x=ea[v]||0,y=eb[v]||0;
-    if(x!==y)return x-y;
-  }
-  return 0;
-}
-function polyLeadingKey(p){
-  return Object.keys(p).sort(compareMonomialKeys).pop();
-}
-function coefficientNthRoot(c,n){
-  if(n%2===0&&c<0)return null;
-  const sign=c<0?-1:1,mag=Math.pow(Math.abs(c),1/n);
-  const rounded=Math.round(mag);
-  if(Math.abs(mag-rounded)<1e-9)return sign*rounded;
-  return sign*mag;
-}
-
-/* Проверяет, является ли полином точной n-й степенью.
-   Например:
-   a²+2ab+b² -> a+b
-   a²-2ab+b² -> a-b
-*/
-function polynomialNthRoot(P,n){
-  if(polyIsZero(P))return {};
-  const lead=polyLeadingKey(P),leadExp=decodeKey(lead),leadCoeff=P[lead];
-  for(const v in leadExp)if(leadExp[v]%n!==0)return null;
-  const rootCoeff=coefficientNthRoot(leadCoeff,n);
-  if(rootCoeff===null||!Number.isFinite(rootCoeff))return null;
-
-  const rootExps={};
-  for(const v in leadExp)if(leadExp[v])rootExps[v]=leadExp[v]/n;
-  let R=polyFromTerms([[rootExps,rootCoeff]]);
-  let safety=0;
-
-  while(safety++<1000){
-    const rem=polyAdd(P,polyPow(R,n),-1);
-    if(polyIsZero(rem))return R;
-
-    const lk=polyLeadingKey(rem),le=decodeKey(lk),lc=rem[lk];
-    const rk=polyLeadingKey(R),re=decodeKey(rk),rc=R[rk];
-    const baseExp={};
-    for(const v of Object.keys({...le,...re})){
-      const e=(le[v]||0)-((n-1)*(re[v]||0));
-      if(e<0||!Number.isInteger(e))return null;
-      if(e)baseExp[v]=e;
-    }
-    const denom=n*Math.pow(rc,n-1);
-    if(Math.abs(denom)<1e-15)return null;
-    const tc=lc/denom;
-    if(!Number.isFinite(tc)||Math.abs(tc)<1e-12)return null;
-    R=polyAdd(R,polyFromTerms([[baseExp,tc]]));
+  if(A<0n)return null;
+  if(A===0n)return 0n;
+  let lo=1n,hi=A;
+  while(lo<=hi){
+    let mid=(lo+hi)>>1n,p=bigintPow(mid,n);
+    if(p===A)return mid;
+    if(p<A)lo=mid+1n;else hi=mid-1n;
   }
   return null;
 }
+function formatNumber(x, digits){
+  if(!Number.isFinite(x)) return "∞";
+  return x.toLocaleString(undefined,{maximumFractionDigits:digits,useGrouping:false});
+}
+function parseReal(s){
+  s=s.trim().replaceAll(",","");
+  if(!s)return NaN;
+  return Number(s);
+}
+function radical(A,n){
+  if(n===2)return "√("+A+")";
+  return "ⁿ√("+A+")".replace("ⁿ", n);
+}
+function renderSteps(items){$("steps").innerHTML=items.map(x=>`<div class="step">${x}</div>`).join("")}
 
-function symbolicTokens(input){
-  const s=input.trim(),t=[];let i=0;
+function expressionTokens(s){
+  const t=[]; let i=0;
+  const funcs=new Set(["sqrt","cbrt","sin","cos","tan","asin","acos","atan","sinh","cosh","tanh","ln","log","abs","exp"]);
   while(i<s.length){
     const c=s[i];
     if(/\s/.test(c)){i++;continue}
     if(/[0-9.]/.test(c)){
-      let j=i,d=0;
-      while(j<s.length&&/[0-9.]/.test(s[j])){if(s[j]===".")d++;j++}
+      let j=i,d=0; while(j<s.length&&/[0-9.]/.test(s[j])){if(s[j]==='.')d++;j++}
       if(d>1)throw new Error("Некорректное число.");
-      t.push({type:"number",value:Number(s.slice(i,j))});i=j;continue;
+      t.push({type:"number",value:Number(s.slice(i,j))}); i=j; continue;
     }
     if(/[A-Za-z]/.test(c)){
-      let j=i+1;
-      while(j<s.length&&/[A-Za-z]/.test(s[j]))j++;
+      let j=i+1; while(j<s.length&&/[A-Za-z]/.test(s[j]))j++;
       const name=s.slice(i,j).toLowerCase();
       if(name==="pi")t.push({type:"number",value:Math.PI});
-      else if(name==="e")t.push({type:"var",value:"e"});
-      else {
-        // Для алгебры ab означает a*b, а не отдельную переменную "ab".
-        for(const ch of name)t.push({type:"var",value:ch});
-      }
-      i=j;continue;
+      else if(name==="e")t.push({type:"number",value:Math.E});
+      else if(funcs.has(name))t.push({type:"func",value:name});
+      else t.push({type:"var",value:name});
+      i=j; continue;
     }
     if(s.startsWith("**",i)){t.push({type:"op",value:"**"});i+=2;continue}
-    if("+-*/()".includes(c)){t.push({type:c==="("||c===")"?"paren":"op",value:c});i++;continue}
-    throw new Error("Недопустимый символ.");
+    if("+-*/(),".includes(c)){t.push({type:(c==='('||c===')'||c===',')?"paren":"op",value:c});i++;continue}
+    throw new Error("Недопустимый символ: "+c);
   }
-
-  // Неявное умножение: 2a, ab, a(b+c), (a+b)(a-b).
-  const out=[];
-  const left=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value===")"));
-  const right=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value==="("));
-  for(const x of t){
-    if(left(out[out.length-1])&&right(x))out.push({type:"op",value:"*"});
-    out.push(x);
-  }
-  return out;
+  return t;
 }
-
-function parseSymbolicPolynomial(input){
-  const tokens=symbolicTokens(input),out=[],stack=[];let expect=true;
+function evaluateExpression(s){
+  const ts=expressionTokens(s), out=[], ops=[]; let expect=true;
   const prec={"+":1,"-":1,"*":2,"/":2,"u+":3,"u-":3,"**":4};
-  const rightAssoc={"**":true,"u+":true,"u-":true};
-  for(const tok of tokens){
-    if(tok.type==="number"||tok.type==="var"){out.push(tok);expect=false;continue}
-    if(tok.type==="paren"){
-      if(tok.value==="("){stack.push(tok);expect=true}
-      else{
-        let ok=false;
-        while(stack.length){
-          const q=stack.pop();
-          if(q.type==="paren"){ok=true;break}
-          out.push(q);
-        }
-        if(!ok)throw new Error("Не закрыта/лишняя скобка.");
-        expect=false;
-      }
-      continue;
+  const rightAssoc=new Set(["**","u+","u-"]);
+  for(let i=0;i<ts.length;i++){
+    const x=ts[i];
+    if(x.type==="number"||x.type==="var"){out.push(x);expect=false;continue}
+    if(x.type==="func"){ops.push(x);expect=true;continue}
+    if(x.type==="paren"&&x.value===","){while(ops.length&&ops[ops.length-1].type!=="paren")out.push(ops.pop());continue}
+    if(x.type==="paren"){
+      if(x.value==="("){ops.push(x);expect=true;continue}
+      let found=false; while(ops.length){const q=ops.pop();if(q.type==="paren"){found=true;break}out.push(q)}
+      if(!found)throw new Error("Лишняя закрывающая скобка.");
+      if(ops.length&&ops[ops.length-1].type==="func")out.push(ops.pop());
+      expect=false; continue;
     }
-    let op=tok.value;
-    if((op==="+"||op==="-")&&expect)op=op==="+"?"u+":"u-";
+    let op=x.value;
+    if((op==='+'||op==='-')&&expect)op=op==='+'?'u+':'u-';
     else if(expect)throw new Error("Некорректный оператор.");
-    while(stack.length&&stack[stack.length-1].type==="op"){
-      const top=stack[stack.length-1].value;
-      if(prec[top]>prec[op]||(prec[top]===prec[op]&&!rightAssoc[op]))out.push(stack.pop());else break;
+    while(ops.length&&ops[ops.length-1].type==="op"){
+      const top=ops[ops.length-1].value;
+      if(prec[top]>prec[op]||(prec[top]===prec[op]&&!rightAssoc.has(op)))out.push(ops.pop());else break;
     }
-    stack.push({type:"op",value:op});expect=true;
+    ops.push({type:"op",value:op});expect=true;
   }
-  if(expect)throw new Error("Некорректное выражение.");
-  while(stack.length){
-    const q=stack.pop();if(q.type==="paren")throw new Error("Не закрыта скобка.");out.push(q);
-  }
-
+  while(ops.length){const q=ops.pop();if(q.type==="paren")throw new Error("Не закрыта скобка.");out.push(q)}
   const st=[];
-  for(const q of out){
-    if(q.type==="number"){st.push(polyConst(q.value));continue}
-    if(q.type==="var"){st.push(polyVar(q.value));continue}
-    if(q.value==="u+"||q.value==="u-"){
-      if(!st.length)throw new Error("Некорректное выражение.");
-      const a=st.pop();st.push(q.value==="u-"?polyNeg(a):a);continue;
-    }
-    if(st.length<2)throw new Error("Некорректное выражение.");
-    const b=st.pop(),a=st.pop();
-    if(q.value==="+")st.push(polyAdd(a,b));
-    else if(q.value==="-")st.push(polyAdd(a,b,-1));
-    else if(q.value==="*")st.push(polyMul(a,b));
-    else if(q.value==="/"){
-      if(!polyIsConstant(b))throw new Error("Деление на буквенное выражение пока не поддерживается.");
-      const c=b[""]??0;if(Math.abs(c)<1e-15)throw new Error("Деление на ноль.");
-      st.push(polyScale(a,1/c));
-    }
-    else if(q.value==="**"){
-      if(!polyIsConstant(b))throw new Error("Степень должна быть числом.");
-      const e=b[""]??0;if(!Number.isInteger(e)||e<0)throw new Error("Степень должна быть целым неотрицательным числом.");
-      st.push(polyPow(a,e));
+  for(const x of out){
+    if(x.type==="number")st.push(x.value);
+    else if(x.type==="var")throw new Error("Неизвестное имя: "+x.value);
+    else if(x.type==="func"){
+      if(!st.length)throw new Error("Для "+x.value+" нужен аргумент.");
+      const a=st.pop(), f={sqrt:Math.sqrt,cbrt:Math.cbrt,sin:Math.sin,cos:Math.cos,tan:Math.tan,asin:Math.asin,acos:Math.acos,atan:Math.atan,sinh:Math.sinh,cosh:Math.cosh,tanh:Math.tanh,ln:Math.log,log:Math.log10,abs:Math.abs,exp:Math.exp}[x.value];
+      st.push(f(a));
+    } else {
+      if(x.value==='u+'||x.value==='u-'){if(!st.length)throw new Error("Некорректное выражение.");const a=st.pop();st.push(x.value==='u-'?-a:a);continue}
+      if(st.length<2)throw new Error("Некорректное выражение.");const b=st.pop(),a=st.pop();
+      if(x.value==='+')st.push(a+b);else if(x.value==='-')st.push(a-b);else if(x.value==='*')st.push(a*b);else if(x.value==='/'){if(b===0)throw new Error("Деление на ноль.");st.push(a/b)}else if(x.value==='**')st.push(a**b);
     }
   }
-  if(st.length!==1)throw new Error("Некорректное выражение.");
+  if(st.length!==1||!Number.isFinite(st[0]))throw new Error("Выражение не даёт конечного действительного числа.");
   return st[0];
 }
 
-function formatCoefficient(c){
-  const rounded=Math.abs(c-Math.round(c))<1e-10?Math.round(c):Number(c.toPrecision(12));
-  return String(rounded).replace("-", "−");
-}
-function formatPolynomial(p){
-  if(polyIsZero(p))return "0";
-  const keys=Object.keys(p).sort(compareMonomialKeys).reverse();
-  const parts=[];
-  for(const k of keys){
-    const c=p[k],abs=Math.abs(c),e=decodeKey(k),vars=Object.keys(e).sort();
-    let mon="";
-    for(const v of vars){
-      const pow=e[v];
-      mon+=v+(pow===1?"":`^${pow}`);
+// Полиномы для буквенных выражений.
+function pClean(p){for(const k of Object.keys(p))if(Math.abs(p[k])<1e-12)delete p[k];return p}
+function pConst(c){return Math.abs(c)<1e-12?{}:{"":c}}
+function pVar(v){return {[v+"^1"]:1}}
+function pKey(exps){return Object.keys(exps).filter(v=>exps[v]).sort().map(v=>v+"^"+exps[v]).join("|")}
+function pExps(k){const e={};if(k)for(const z of k.split("|")){const q=z.lastIndexOf("^");e[z.slice(0,q)]=Number(z.slice(q+1))}return e}
+function pAdd(a,b,sgn=1){const r={...a};for(const k in b)r[k]=(r[k]||0)+sgn*b[k];return pClean(r)}
+function pMul(a,b){const r={};for(const ka in a)for(const kb in b){const ea=pExps(ka),eb=pExps(kb),e={...ea};for(const v in eb)e[v]=(e[v]||0)+eb[v];const k=pKey(e);r[k]=(r[k]||0)+a[ka]*b[kb]}return pClean(r)}
+function pScale(a,c){const r={};for(const k in a)r[k]=a[k]*c;return pClean(r)}
+function pPow(a,n){if(!Number.isInteger(n)||n<0)throw new Error("Степень должна быть целым неотрицательным числом.");let r=pConst(1),b=a;while(n){if(n&1)r=pMul(r,b);b=pMul(b,b);n>>=1}return r}
+function pNeg(a){return pScale(a,-1)}
+function pDegree(k){const e=pExps(k);return Object.values(e).reduce((s,x)=>s+x,0)}
+// Мономиальный порядок: a² > ab > b² (а не лексикографический порядок строк).
+function pLead(p){
+  const vars=new Set();
+  for(const k of Object.keys(p))for(const v of Object.keys(pExps(k)))vars.add(v);
+  const names=[...vars].sort();
+  return Object.keys(p).sort((a,b)=>{
+    const da=pDegree(a),db=pDegree(b);
+    if(da!==db)return da-db;
+    const ea=pExps(a),eb=pExps(b);
+    for(const v of names){
+      const d=(ea[v]||0)-(eb[v]||0);
+      if(d)return d;
     }
-    const coeffOnly=mon==="";
-    const coeffText=formatCoefficient(abs);
-    let body;
-    if(coeffOnly)body=coeffText;
-    else if(Math.abs(abs-1)<1e-10)body=mon;
-    else body=coeffText+"·"+mon;
-    if(!parts.length)parts.push(c<0?"−"+body:body);
-    else parts.push((c<0?" − ":" + ")+body);
-  }
-  return parts.join("");
+    return 0;
+  }).pop();
 }
-
-function showSymbolicRoots(P,n,label){
-  const R=polynomialNthRoot(P,n);
-  if(R===null)return false;
-
-  const rootText=formatPolynomial(R);
-  const zero=polyIsZero(R);
-  $("expression").textContent=`√[${n}](${label})`;
-  $("answer").className="answer small";
-
-  if(zero){
-    $("answer").textContent="0";
-    $("meta").textContent="точный буквенный результат";
-    renderSteps([
-      `1. ${label} = 0.`,
-      `2. Получаем x^${n} = 0.`,
-      `3. x = 0.`
-    ]);
-  }else if(n%2===0){
-    $("answer").innerHTML=`x₁ = −(${rootText})<br>x₂ = ${rootText}`;
-    $("meta").textContent="2 точных действительных корня";
-    renderSteps([
-      `1. Раскрываем и приводим выражение: ${label} = ${formatPolynomial(P)}.`,
-      `2. Распознаём точную ${n}-ю степень: ${formatPolynomial(P)} = (${rootText})^${n}.`,
-      `3. Для чётной степени подходят оба знака: x₁ = −(${rootText}), x₂ = ${rootText}.`
-    ]);
-  }else{
-    $("answer").textContent=rootText;
-    $("meta").textContent="точный буквенный результат";
-    renderSteps([
-      `1. Раскрываем и приводим выражение: ${label} = ${formatPolynomial(P)}.`,
-      `2. ${formatPolynomial(P)} = (${rootText})^${n}.`,
-      `3. Получаем x = ${rootText}.`
-    ]);
+function pRootCoeff(c,n){if(c<0&&n%2===0)return null;const sg=c<0?-1:1,m=Math.pow(Math.abs(c),1/n),r=Math.round(m);return Math.abs(m-r)<1e-9?sg*r:null}
+function pNthRoot(p,n){
+  if(!Object.keys(p).length)return {};
+  const lk=pLead(p), le=pExps(lk); for(const v in le)if(le[v]%n)return null;
+  const c=pRootCoeff(p[lk],n);if(c===null)return null;
+  const re={};for(const v in le)if(le[v]/n)re[v]=le[v]/n;
+  let r={ [pKey(re)]: c };
+  for(let it=0;it<1000;it++){
+    const rem=pAdd(p,pPow(r,n),-1);if(!Object.keys(rem).length)return r;
+    const a=pLead(rem),b=pLead(r),ae=pExps(a),be=pExps(b),e={};
+    for(const v of new Set([...Object.keys(ae),...Object.keys(be)])){const q=(ae[v]||0)-(n-1)*(be[v]||0);if(q<0)return null;if(q)e[v]=q}
+    const denom=n*Math.pow(r[b],n-1);if(!denom)return null;
+    r=pAdd(r,{[pKey(e)]:rem[a]/denom});
   }
-  $("badge").textContent=T.ready;
-  return true;
+  return null;
+}
+function pFormat(p){
+  const ks=Object.keys(p).sort((a,b)=>pDegree(b)-pDegree(a)||a.localeCompare(b));if(!ks.length)return "0";
+  return ks.map((k,i)=>{const c=p[k],e=pExps(k),vars=Object.keys(e).sort(),m=vars.map(v=>v+(e[v]===1?"":"^"+e[v])).join("");const body=m?(Math.abs(c)===1?m:Math.abs(c)+"·"+m):String(Math.abs(c));return i?(c<0?" − ":" + ")+body:(c<0?"−":"")+body}).join("")
+}
+function symbolicTokens(s){
+  const raw=expressionTokens(s); if(raw.some(x=>x.type==="func"))throw new Error("Функции не являются полиномами.");
+  const t=[];for(const x of raw){if(x.type==="var"&&x.value.length>1){for(const ch of x.value)t.push({type:"var",value:ch})}else t.push(x)}
+  const out=[];const left=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value===")"));const right=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value==="("));for(const x of t){if(left(out[out.length-1])&&right(x))out.push({type:"op",value:"*"});out.push(x)}return out
+}
+function parseSymbolic(s){
+  const t=symbolicTokens(s),out=[],ops=[];let expect=true;const prec={"+":1,"-":1,"*":2,"/":2,"u+":3,"u-":3,"**":4},ra=new Set(["**","u+","u-"]);
+  for(const x of t){if(x.type==="number"||x.type==="var"){out.push(x);expect=false;continue}if(x.type==="paren"){if(x.value==="("){ops.push(x);expect=true}else{let f=false;while(ops.length){const q=ops.pop();if(q.type==="paren"){f=true;break}out.push(q)}if(!f)throw new Error("Лишняя скобка.");expect=false}continue}let op=x.value;if((op==='+'||op==='-')&&expect)op=op==='+'?'u+':'u-';else if(expect)throw new Error("Некорректный оператор.");while(ops.length&&ops[ops.length-1].type==="op"){const top=ops[ops.length-1].value;if(prec[top]>prec[op]||(prec[top]===prec[op]&&!ra.has(op)))out.push(ops.pop());else break}ops.push({type:"op",value:op});expect=true}
+  while(ops.length){const q=ops.pop();if(q.type==="paren")throw new Error("Не закрыта скобка.");out.push(q)}
+  const st=[];for(const x of out){if(x.type==="number")st.push(pConst(x.value));else if(x.type==="var")st.push(pVar(x.value));else if(x.value==="u+"||x.value==="u-"){const a=st.pop();st.push(x.value==="u-"?pNeg(a):a)}else{const b=st.pop(),a=st.pop();if(x.value==="+")st.push(pAdd(a,b));else if(x.value==="-")st.push(pAdd(a,b,-1));else if(x.value==="*")st.push(pMul(a,b));else if(x.value==="/"){if(Object.keys(b).length!==1||b[""]===undefined)throw new Error("Деление на буквенное выражение не поддерживается.");st.push(pScale(a,1/b[""]))}else if(x.value==="**"){if(Object.keys(b).length!==1||b[""]===undefined)throw new Error("Степень должна быть числом.");st.push(pPow(a,b[""]))}}
+  }if(st.length!==1)throw new Error("Некорректное выражение.");return st[0]
+}
+function showSymbolic(p,n,label){
+  const root=pNthRoot(p,n), reduced=pFormat(p), rad=(n===2?"√":`√[${n}]`)+`(${reduced})`;
+  $("expression").textContent=(n===2?"√":`√[${n}]`)+`(${label})`;$("answer").className="answer small";
+  if(root!==null){const r=pFormat(root);if(n%2===0&&r!=="0"){$("answer").innerHTML=`x₁ = −(${r})<br>x₂ = ${r}`;$("meta").textContent="2 точных действительных корня"}else{$("answer").textContent=r;$("meta").textContent="точный буквенный результат"}renderSteps([`1. Приводим выражение: ${label} = ${reduced}.`,`2. ${reduced} = (${r})^${n}.`,`3. ${n%2===0&&r!=="0"?`Корни: −(${r}) и ${r}.`:`Получаем x = ${r}.`}`])}else{$("answer").textContent=rad;$("meta").textContent="буквенный радикал";renderSteps([`1. Приводим выражение: ${label} = ${reduced}.`,`2. Точная ${n}-я степень не обнаружена.`,`3. Сохраняем результат как ${rad}.`])}
+  $("badge").textContent=T.ready
 }
 
 function calculateReal(){
-  const Atext=$("number").value.trim();
-  const n=Math.max(2,Math.floor(Number($("degree").value)));
-  const digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value))));
-  const mode=$("method").value;
+  const Atext=$("number").value.trim(),n=Math.max(2,Math.floor(Number($("degree").value))),digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value)))),mode=$("method").value;
   if(!Atext||!Number.isFinite(n)){showError("Некорректные параметры");return}
 
-  // Если есть буквы, сначала пытаемся решить задачу символически.
-  // Функции sin/cos/... оставляем численному парсеру.
-  const hasLetters=/[A-Za-z]/.test(Atext);
-  const hasFunctionName=/(^|[^A-Za-z])(sqrt|cbrt|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh|ln|log|abs|exp)(?=\s*\()/i.test(Atext);
-  if(hasLetters&&!hasFunctionName){
-    try{
-      const P=parseSymbolicPolynomial(Atext);
-
-      // Полином успешно разобран. Не отправляем его в численный
-      // калькулятор: там буквенные переменные считаются неизвестными именами.
-      if(showSymbolicRoots(P,n,Atext))return;
-
-      // Если выражение не является точной n-й степенью, всё равно
-      // показываем корректный буквенный результат вместо ошибки.
-      const reduced=formatPolynomial(P);
-      $("expression").textContent=`√[${n}](${Atext})`;
-      $("answer").className="answer small";
-      $("answer").textContent=`√[${n}](${reduced})`;
-      $("meta").textContent="буквенное выражение не является точной степенью";
-      $("badge").textContent=T.ready;
-      renderSteps([
-        `1. Приводим выражение: ${Atext} = ${reduced}.`,
-        `2. Проверяем, является ли оно точной ${n}-й степенью.`,
-        `3. Точный буквенный корень в виде полинома не найден, поэтому сохраняем радикал: √[${n}](${reduced}).`
-      ]);
-      return;
-    }catch(e){
-      // Если это не поддерживаемый полином, передаём выражение
-      // обычному численному парсеру (например, для функций).
-    }
+  // Буквенная ветка: разбираем полином, не отправляя его в численный parser.
+  if(/[A-Za-z]/.test(Atext)){
+    try{showSymbolic(parseSymbolic(Atext),n,Atext);return}
+    catch(e){showError(e.message||"Некорректное буквенное выражение.");return}
   }
 
-  let A;
-  try{A=evaluateExpression(Atext)}
-  catch(e){showError(e.message||"Некорректное выражение.");return}
-  if(A<0&&n%2===0){showError(T.noRoot);return}
-
-  const clean=Atext.replaceAll(",",""),integer=/^[+-]?\d+$/.test(clean);
-  if(integer&&mode!=="numeric"){
-    try{
-      const big=BigInt(clean),positive=big>=0n,abs=positive?big:-big;
-      const exact=integerRootExact(abs,n);
-      if(exact!==null){
-        const roots=(n%2===0&&positive&&exact!==0n)?[-exact,exact]:[positive?exact:-exact];
-        $("expression").textContent=`√[${n}](${Atext})`;
-        $("answer").className=roots.length>1?"answer small":"answer";
-        $("answer").innerHTML=roots.map((x,i)=>roots.length>1?`x${i+1} = ${x}`:x).join("<br>");
-        $("meta").textContent=roots.length>1?"2 точных действительных корня":"точный целый результат";
-        $("badge").textContent=T.ready;
-        renderSteps([
-          `1. Проверяем, является ли |${Atext}| точной ${n}-й степенью.`,
-          `2. ${exact}^${n} = ${abs}.`,
-          roots.length>1?`3. При чётной степени оба знака подходят: x₁ = −${exact}, x₂ = ${exact}.`:`3. Получаем x = ${roots[0]}.`
-        ]);
-        return;
+  const clean=Atext.replaceAll(",","");
+  const integer=/^[+-]?\d+$/.test(clean);
+  if(integer&&!clean.startsWith("-")){
+    try{const A=BigInt(clean),exact=integerRootExact(A,n);$("expression").textContent=(n===2?"√":"√["+n+"]")+A.toString();
+      if(exact!==null&&mode!=="numeric"){
+        if(n%2===0&&exact!==0n){$("answer").innerHTML=`x₁ = −${exact}<br>x₂ = ${exact}`;$("answer").className="answer small";$("meta").textContent="2 точных действительных корня"}
+        else{$("answer").textContent=exact.toString();$("meta").textContent=T.exact}
+        $("badge").textContent=T.ready;renderSteps([`1. Проверяем, является ли ${A} точной ${n}-й степенью.`,`2. ${exact}^${n} = ${A}.`,`3. ${n%2===0&&exact!==0n?`Получаем два корня: −${exact} и ${exact}.`:`Получаем корень ${exact}.`}`]);return
       }
+      const num=Number(A);if(!Number.isFinite(num)){showError("Число слишком велико для численного режима.");return}numericReal(num,n,digits,A.toString());return
     }catch(e){}
   }
-  numericReal(A,n,digits,Atext);
-}
 
+  let A;try{A=evaluateExpression(Atext)}catch(e){showError(e.message||"Некорректное выражение.");return}
+  if(A<0&&n%2===0){showError(T.noRoot);return}
+  if(mode==="analytic"){$("expression").textContent=radical(Atext,n);$("answer").textContent=radical(Atext,n);$("answer").className="answer small";$("meta").textContent=T.radical;$("badge").textContent=T.ready;renderSteps([`1. Вычисляем выражение: ${Atext} = ${formatNumber(A,digits)}.`,`2. Записываем корень: ${radical(Atext,n)}.`,`3. Для приближения используйте численный режим.`])}
+  else numericReal(A,n,digits,Atext)
+}
+function numericReal(A,n,digits,label){
+  let x=A===0?0:Math.sign(A)*Math.pow(Math.abs(A),1/n);
+  if(!Number.isFinite(x))x=1;
+  const steps=[`1. Начальное приближение x₀ ≈ ${formatNumber(x,digits+4)}.`];
+  for(let i=0;i<80;i++){
+    if(x===0)break;
+    const nx=((n-1)*x + A/Math.pow(x,n-1))/n;
+    steps.push(`${i+2}. x${i+1} = ${formatNumber(nx,digits+6)}`);
+    if(Math.abs(nx-x)<=Math.max(1e-15,Math.pow(10,-Math.min(15,digits+2)))*Math.max(1,Math.abs(nx))){x=nx;break}
+    x=nx;
+  }
+  $("expression").textContent=`√[${n}](${label})`;
+  $("answer").className="answer";
+  $("answer").textContent=formatNumber(x,digits);
+  $("meta").textContent=T.numericMeta;
+  $("badge").textContent=T.ready;
+  renderSteps(steps.slice(-Math.min(12,steps.length)));
+}
 function calculateComplex(){
-const n=Math.max(2,Math.floor(Number($("degree").value)));
-const digits=Math.min(20,Math.max(0,Math.floor(Number($("accuracy").value))));
-const a=parseReal($("realPart").value),b=parseReal($("imagPart").value);
-if(!Number.isFinite(a)||!Number.isFinite(b)){showError("Введите корректные a и b.");return}
-const r=Math.hypot(a,b),theta=Math.atan2(b,a),rho=Math.pow(r,1/n),roots=[];
-for(let k=0;k<n;k++){
-const ang=(theta+2*Math.PI*k)/n;
-roots.push({re:rho*Math.cos(ang),im:rho*Math.sin(ang),k});
+  const n=Math.max(2,Math.floor(Number($("degree").value))),digits=Math.min(20,Math.max(0,Math.floor(Number($("accuracy").value))));
+  const a=parseReal($("realPart").value),b=parseReal($("imagPart").value);
+  if(!Number.isFinite(a)||!Number.isFinite(b)){showError("Введите корректные a и b.");return}
+  const r=Math.hypot(a,b),theta=Math.atan2(b,a),rho=Math.pow(r,1/n),roots=[];
+  for(let k=0;k<n;k++){
+    const ang=(theta+2*Math.PI*k)/n;
+    const re=rho*Math.cos(ang),im=rho*Math.sin(ang);
+    roots.push({re,im,k,ang});
+  }
+  $("expression").textContent=`z = ${a} ${b<0?"−":"+"} ${Math.abs(b)}i`;
+  $("answer").className="answer small";
+  $("answer").innerHTML=roots.map(q=>`z${q.k+1} = ${formatNumber(q.re,digits)} ${q.im<0?"−":"+"} ${formatNumber(Math.abs(q.im),digits)}i`).join("<br>");
+  $("meta").textContent=`${n} комплексных корней`;
+  $("badge").textContent=T.ready;
+  renderSteps([
+    `1. Модуль: |z| = √(${a}² + ${b}²) = ${formatNumber(r,digits+4)}.`,
+    `2. Аргумент: θ = atan2(${b}, ${a}) = ${formatNumber(theta,digits+4)} рад.`,
+    `3. Модуль каждого корня: |zₖ| = |z|^(1/${n}) = ${formatNumber(rho,digits+4)}.`,
+    `4. Формула: zₖ = |z|^(1/${n}) · [cos((θ+2πk)/${n}) + i·sin((θ+2πk)/${n})].`,
+    `5. Получены все ${n} корней, k = 0…${n-1}.`
+  ]);
 }
-$("expression").textContent=`z = ${a} ${b<0?"−":"+"} ${Math.abs(b)}i`;
-$("answer").className="answer small";
-$("answer").innerHTML=roots.map(q=>`z${q.k+1} = ${formatNumber(q.re,digits)} ${q.im<0?"−":"+"} ${formatNumber(Math.abs(q.im),digits)}i`).join("<br>");
-$("meta").textContent=`${n} комплексных корней`;
-$("badge").textContent=T.ready;
-renderSteps([
-`1. Модуль: |z| = √(${a}² + ${b}²) = ${formatNumber(r,digits+4)}.`,
-`2. Аргумент: θ = atan2(${b}, ${a}) = ${formatNumber(theta,digits+4)} рад.`,
-`3. Модуль каждого корня: |z|^(1/${n}) = ${formatNumber(rho,digits+4)}.`,
-`4. Получены все ${n} корней.`
-]);
-}
-
 function showError(msg){$("badge").textContent="error";$("expression").textContent="";$("answer").className="answer error";$("answer").textContent=msg;$("meta").textContent="";renderSteps([])}
 function calculate(){ $("type").value==="complex"?calculateComplex():calculateReal() }
+
 let T=tr.ru;
 function applyLanguage(lang){
-const custom=getCustomLanguages();
-T=custom[lang]||tr[lang]||tr.ru;
-const keys=["title","subtitle","typeLabel","numberLabel","degreeLabel","accuracyLabel","methodLabel","calculate","clear","resultTitle","stepsTab","infoTab","f1","f1s","f2","f2s","f3","f3s","footer","realPartLabel","imagPartLabel"];
-const map={title:"title",subtitle:"subtitle",typeLabel:"type",numberLabel:"number",degreeLabel:"degree",accuracyLabel:"accuracy",methodLabel:"method",calculate:"calc",clear:"clear",resultTitle:"result",stepsTab:"steps",infoTab:"info",f1:"f1",f1s:"f1s",f2:"f2",f2s:"f2s",f3:"f3",f3s:"f3s",footer:"footer",realPartLabel:"realPart",imagPartLabel:"imagPart"};
-keys.forEach(k=>{if($(k)&&T[map[k]])$(k).textContent=T[map[k]]});
-$("type").options[0].text=T.real;$("type").options[1].text=T.complex;
-$("method").options[0].text=T.auto;$("method").options[1].text=T.numeric;$("method").options[2].text=T.analytic;
-$("info").textContent=T.methodInfo;
-document.documentElement.lang=lang;
-document.body.dir=(lang==="ar"||lang==="ur")?"rtl":"ltr";
+  const custom=getCustomLanguages();
+  T=custom[lang]||tr[lang]||tr.ru;
+  const keys=["title","subtitle","typeLabel","numberLabel","degreeLabel","accuracyLabel","methodLabel","calculate","clear","resultTitle","stepsTab","infoTab","f1","f1s","f2","f2s","f3","f3s","footer","realPartLabel","imagPartLabel"];
+  const map={title:"title",subtitle:"subtitle",typeLabel:"type",numberLabel:"number",degreeLabel:"degree",accuracyLabel:"accuracy",methodLabel:"method",calculate:"calc",clear:"clear",resultTitle:"result",stepsTab:"steps",infoTab:"info",f1:"f1",f1s:"f1s",f2:"f2",f2s:"f2s",f3:"f3",f3s:"f3s",footer:"footer",realPartLabel:"realPart",imagPartLabel:"imagPart"};
+  keys.forEach(k=>{if($(k)&&T[map[k]])$(k).textContent=T[map[k]]});
+  $("type").options[0].text=T.real;$("type").options[1].text=T.complex;
+  $("method").options[0].text=T.auto;$("method").options[1].text=T.numeric;$("method").options[2].text=T.analytic;
+  $("info").textContent=T.methodInfo;
+  document.documentElement.lang=lang;
+  document.body.dir=(lang==="ar"||lang==="ur")?"rtl":"ltr";
 }
 $("supportPhoneText").textContent=SUPPORT_PHONE;
 $("supportPhone").href="tel:"+SUPPORT_PHONE.replace(/[^\d+]/g,"");
@@ -788,8 +471,9 @@ $("addLanguageBtn").onclick=()=>$("languageModal").classList.add("show");
 $("cancelLanguage").onclick=()=>$("languageModal").classList.remove("show");
 $("languageModal").addEventListener("click",e=>{if(e.target.id==="languageModal")e.currentTarget.classList.remove("show")});
 $("saveLanguage").onclick=addCustomLanguage;
+
 $("calculate").onclick=calculate;
-$("clear").onclick=()=>{$("number").value="4";$("degree").value=2;$("accuracy").value=12;$("realPart").value=3;$("imagPart").value=4;$("method").value="auto";calculate()};
+$("clear").onclick=()=>{$("number").value="4";$("degree").value=2;$("accuracy").value=12;$("realPart").value=3;$("imagPart").value=4;calculate()};
 $("type").onchange=()=>{$("complexFields").classList.toggle("show",$("type").value==="complex");$("number").parentElement.style.display=$("type").value==="complex"?"none":"block";calculate()};
 $("language").onchange=e=>applyLanguage(e.target.value);
 document.querySelectorAll(".preset").forEach(b=>b.onclick=()=>{$("number").value=b.dataset.value;calculate()});
