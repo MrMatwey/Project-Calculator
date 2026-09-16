@@ -97,7 +97,7 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
        placeholder="Например: (3+1)**2 или sin(pi/2)">
 <div class="presets">
 <button class="preset" data-value="4">4</button>
-<button class="preset" data-value="(a+b)**2">(a+b)**2</button>
+<button class="preset" data-value="(a+b)**2">(a+b)²</button>
 <button class="preset" data-value="sin(pi/2)">sin(π/2)</button>
 <button class="preset" data-value="cos(0)">cos(0)</button>
 </div>
@@ -689,9 +689,28 @@ function calculateReal(){
   if(hasLetters&&!hasFunctionName){
     try{
       const P=parseSymbolicPolynomial(Atext);
+
+      // Полином успешно разобран. Не отправляем его в численный
+      // калькулятор: там буквенные переменные считаются неизвестными именами.
       if(showSymbolicRoots(P,n,Atext))return;
+
+      // Если выражение не является точной n-й степенью, всё равно
+      // показываем корректный буквенный результат вместо ошибки.
+      const reduced=formatPolynomial(P);
+      $("expression").textContent=`√[${n}](${Atext})`;
+      $("answer").className="answer small";
+      $("answer").textContent=`√[${n}](${reduced})`;
+      $("meta").textContent="буквенное выражение не является точной степенью";
+      $("badge").textContent=T.ready;
+      renderSteps([
+        `1. Приводим выражение: ${Atext} = ${reduced}.`,
+        `2. Проверяем, является ли оно точной ${n}-й степенью.`,
+        `3. Точный буквенный корень в виде полинома не найден, поэтому сохраняем радикал: √[${n}](${reduced}).`
+      ]);
+      return;
     }catch(e){
-      // Если это не полином, передаём выражение обычному численному парсеру.
+      // Если это не поддерживаемый полином, передаём выражение
+      // обычному численному парсеру (например, для функций).
     }
   }
 
