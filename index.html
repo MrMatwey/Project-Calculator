@@ -97,7 +97,7 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
        placeholder="Например: (3+1)**2 или sin(pi/2)">
 <div class="presets">
 <button class="preset" data-value="4">4</button>
-<button class="preset" data-value="(3+1)**2">(3+1)**2</button>
+<button class="preset" data-value="(a+b)**2">(a+b)**2</button>
 <button class="preset" data-value="sin(pi/2)">sin(π/2)</button>
 <button class="preset" data-value="cos(0)">cos(0)</button>
 </div>
@@ -191,9 +191,9 @@ function saveCustomLanguages(obj){localStorage.setItem(CUSTOM_LANG_KEY,JSON.stri
 function rebuildLanguageList(){const select=$("language"),custom=getCustomLanguages();Object.keys(custom).forEach(code=>{if(![...select.options].some(o=>o.value===code)){const o=document.createElement("option");o.value=code;o.textContent=custom[code].name||code;select.appendChild(o)}})}
 function addCustomLanguage(){const code=$("newLangCode").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"");const name=$("newLangName").value.trim();if(!code||!name){alert("Укажите код и название языка.");return}let translations;try{translations=JSON.parse($("newLangJson").value)}catch(e){alert("Ошибка в JSON переводов.");return}const custom=getCustomLanguages();custom[code]={name,...tr.ru,...translations};saveCustomLanguages(custom);rebuildLanguageList();$("language").value=code;$("languageModal").classList.remove("show");applyLanguage(code)}
 const tr={
-ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
-en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
-zh:{title:"Project-Calculator",subtitle:"精确与数值开方",type:"题目类型",real:"实数根",complex:"复数根",number:"数字",degree:"根的次数 n",accuracy:"小数位",method:"模式",auto:"自动 — 可精确时优先",numeric:"数值 — Newton",analytic:"解析 — 根式 / 精确结果",calc:"计算根",clear:"重置",result:"结果",steps:"步骤",info:"方法",ready:"就绪",exact:"精确整数结果",numericMeta:"Newton 数值结果",radical:"解析根式",f1:"超大整数",f1s:"使用 BigInt 避免整数舍入误差。",f2:"复数根",f2s:"使用极坐标计算全部 n 个复根。",f3:"精度",f3s:"可设置小数位和 Newton 迭代。",footer:"完全在浏览器本地运行。小数受 JavaScript IEEE-754 精度限制。",realPart:"实部 a",imagPart:"虚部 b",methodInfo:"Newton 迭代：xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n。复根使用模和幅角。",noRoot:"偶数次根不能得到负数的实数结果。"},
+ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число или буквенное выражение",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
+en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number or symbolic expression",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
+zh:{title:"Project-Calculator",subtitle:"精确与数值开方",type:"题目类型",real:"实数根",complex:"复数根",number:"数字或字母表达式",degree:"根的次数 n",accuracy:"小数位",method:"模式",auto:"自动 — 可精确时优先",numeric:"数值 — Newton",analytic:"解析 — 根式 / 精确结果",calc:"计算根",clear:"重置",result:"结果",steps:"步骤",info:"方法",ready:"就绪",exact:"精确整数结果",numericMeta:"Newton 数值结果",radical:"解析根式",f1:"超大整数",f1s:"使用 BigInt 避免整数舍入误差。",f2:"复数根",f2s:"使用极坐标计算全部 n 个复根。",f3:"精度",f3s:"可设置小数位和 Newton 迭代。",footer:"完全在浏览器本地运行。小数受 JavaScript IEEE-754 精度限制。",realPart:"实部 a",imagPart:"虚部 b",methodInfo:"Newton 迭代：xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n。复根使用模和幅角。",noRoot:"偶数次根不能得到负数的实数结果。"},
 hi:{title:"Project-Calculator",subtitle:"सटीक और संख्यात्मक मूल निकालना",type:"समस्या का प्रकार",real:"वास्तविक मूल",complex:"कॉम्प्लेक्स मूल",number:"संख्या",degree:"मूल की घात n",accuracy:"दशमलव स्थान",method:"मोड",auto:"स्वचालित — जहाँ संभव हो सटीक",numeric:"संख्यात्मक — Newton",analytic:"विश्लेषणात्मक — मूल / सटीक उत्तर",calc:"मूल निकालें",clear:"रीसेट",result:"परिणाम",steps:"चरण",info:"विधि",ready:"तैयार",exact:"सटीक पूर्णांक परिणाम",numericMeta:"Newton से संख्यात्मक परिणाम",radical:"विश्लेषणात्मक रूप",f1:"बड़ी संख्याएँ",f1s:"BigInt बड़े पूर्णांकों को बिना rounding संभालता है।",f2:"कॉम्प्लेक्स",f2s:"ध्रुवीय रूप से सभी n कॉम्प्लेक्स मूल।",f3:"सटीकता",f3s:"दशमलव स्थान और Newton iterations चुनें।",footer:"ब्राउज़र में स्थानीय रूप से चलता है। दशमलव JavaScript IEEE-754 पर निर्भर हैं।",realPart:"वास्तविक भाग a",imagPart:"काल्पनिक भाग b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"सम घात वाले ऋणात्मक मूल का वास्तविक मान नहीं होता।"},
 es:{title:"Project-Calculator",subtitle:"extracción exacta y numérica de raíces",type:"Tipo de problema",real:"Raíz real",complex:"Raíz compleja",number:"Número",degree:"Grado n",accuracy:"Decimales",method:"Modo",auto:"Automático — exacto cuando es posible",numeric:"Numérico — Newton",analytic:"Analítico — radical / exacto",calc:"Extraer raíz",clear:"Restablecer",result:"Resultado",steps:"Pasos",info:"Método",ready:"listo",exact:"resultado entero exacto",numericMeta:"resultado numérico por Newton",radical:"forma analítica",f1:"Números grandes",f1s:"BigInt evita redondeos en enteros enormes.",f2:"Complejos",f2s:"Todas las n raíces complejas mediante forma polar.",f3:"Precisión",f3s:"Elige decimales e iteraciones de Newton.",footer:"Funciona localmente en el navegador.",realPart:"Parte real a",imagPart:"Parte imaginaria b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Una raíz de grado par de un número negativo no es real."},
 fr:{title:"Project-Calculator",subtitle:"extraction exacte et numérique des racines",type:"Type de problème",real:"Racine réelle",complex:"Racine complexe",number:"Nombre",degree:"Degré n",accuracy:"Décimales",method:"Mode",auto:"Automatique — exact si possible",numeric:"Numérique — Newton",analytic:"Analytique — radical / exact",calc:"Extraire la racine",clear:"Réinitialiser",result:"Résultat",steps:"Étapes",info:"Méthode",ready:"prêt",exact:"résultat entier exact",numericMeta:"résultat numérique par Newton",radical:"forme analytique",f1:"Grands nombres",f1s:"BigInt gère les grands entiers sans arrondi.",f2:"Complexes",f2s:"Toutes les n racines complexes en forme polaire.",f3:"Précision",f3s:"Choisissez les décimales et itérations de Newton.",footer:"Fonctionne localement dans le navigateur.",realPart:"Partie réelle a",imagPart:"Partie imaginaire b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Une racine de degré pair d’un nombre négatif n’est pas réelle."},
@@ -378,42 +378,350 @@ $("badge").textContent=T.ready;
 renderSteps(steps);
 }
 
+
+/* ===== Символьная алгебра =====
+   Полиномы с буквами a,b,c,...:
+   a+b, 2ab, a**2, (a+b)**2, (a+b)(a-b), ...
+   Алгоритм умеет точно извлекать совершенные n-е степени полиномов.
+*/
+function polyKey(exps){
+  return Object.keys(exps).sort().map(k=>k+"^"+exps[k]).join("|");
+}
+function polyFromTerms(terms){
+  const p={};
+  for(const [vars,coef] of terms){
+    if(Math.abs(coef)<1e-12)continue;
+    const exps={...vars};
+    const key=Object.keys(exps).length?polyKey(exps):"";
+    p[key]=(p[key]||0)+coef;
+    if(Math.abs(p[key])<1e-12)delete p[key];
+  }
+  return p;
+}
+function polyConst(c){return Math.abs(c)<1e-12?{}:{"":c}}
+function polyVar(v){return polyFromTerms([[{[v]:1},1]])}
+function polyClone(p){return {...p}}
+function polyAdd(a,b,sign=1){
+  const r=polyClone(a);
+  for(const k of Object.keys(b)){
+    r[k]=(r[k]||0)+sign*b[k];
+    if(Math.abs(r[k])<1e-10)delete r[k];
+  }
+  return r;
+}
+function polyNeg(a){const r={};for(const k in a)r[k]=-a[k];return r}
+function decodeKey(k){
+  const exps={};
+  if(k)for(const part of k.split("|")){
+    const q=part.lastIndexOf("^");
+    exps[part.slice(0,q)]=Number(part.slice(q+1));
+  }
+  return exps;
+}
+function polyMul(a,b){
+  const r={};
+  for(const ka in a)for(const kb in b){
+    const ea=decodeKey(ka),eb=decodeKey(kb),e={...ea};
+    for(const v in eb)e[v]=(e[v]||0)+eb[v];
+    const k=polyKey(e);
+    r[k]=(r[k]||0)+a[ka]*b[kb];
+  }
+  for(const k of Object.keys(r))if(Math.abs(r[k])<1e-10)delete r[k];
+  return r;
+}
+function polyScale(a,c){const r={};for(const k in a)if(Math.abs(a[k]*c)>1e-12)r[k]=a[k]*c;return r}
+function polyPow(a,n){
+  if(!Number.isInteger(n)||n<0)throw new Error("Степень полинома должна быть целым неотрицательным числом.");
+  let r=polyConst(1),b=a;
+  while(n){if(n%2)r=polyMul(r,b);b=polyMul(b,b);n=Math.floor(n/2)}
+  return r;
+}
+function polyIsZero(a){return Object.keys(a).length===0}
+function polyIsConstant(a){return Object.keys(a).every(k=>k==="")}
+function polyDegree(a){
+  let d=-Infinity;
+  for(const k in a){let s=0;for(const v in decodeKey(k))s+=decodeKey(k)[v];d=Math.max(d,s)}
+  return d===-Infinity?-1:d;
+}
+function monomialMultiplyKey(a,b){
+  const ea=decodeKey(a),eb=decodeKey(b),e={...ea};
+  for(const v in eb)e[v]=(e[v]||0)+eb[v];
+  return polyKey(e);
+}
+function compareMonomialKeys(a,b){
+  const ea=decodeKey(a),eb=decodeKey(b);
+  const va=Object.keys({...ea,...eb}).sort();
+  let da=0,db=0;
+  for(const v of va){da+=ea[v]||0;db+=eb[v]||0}
+  if(da!==db)return da-db;
+  for(let i=va.length-1;i>=0;i--){
+    const v=va[i],x=ea[v]||0,y=eb[v]||0;
+    if(x!==y)return x-y;
+  }
+  return 0;
+}
+function polyLeadingKey(p){
+  return Object.keys(p).sort(compareMonomialKeys).pop();
+}
+function coefficientNthRoot(c,n){
+  if(n%2===0&&c<0)return null;
+  const sign=c<0?-1:1,mag=Math.pow(Math.abs(c),1/n);
+  const rounded=Math.round(mag);
+  if(Math.abs(mag-rounded)<1e-9)return sign*rounded;
+  return sign*mag;
+}
+
+/* Проверяет, является ли полином точной n-й степенью.
+   Например:
+   a²+2ab+b² -> a+b
+   a²-2ab+b² -> a-b
+*/
+function polynomialNthRoot(P,n){
+  if(polyIsZero(P))return {};
+  const lead=polyLeadingKey(P),leadExp=decodeKey(lead),leadCoeff=P[lead];
+  for(const v in leadExp)if(leadExp[v]%n!==0)return null;
+  const rootCoeff=coefficientNthRoot(leadCoeff,n);
+  if(rootCoeff===null||!Number.isFinite(rootCoeff))return null;
+
+  const rootExps={};
+  for(const v in leadExp)if(leadExp[v])rootExps[v]=leadExp[v]/n;
+  let R=polyFromTerms([[rootExps,rootCoeff]]);
+  let safety=0;
+
+  while(safety++<1000){
+    const rem=polyAdd(P,polyPow(R,n),-1);
+    if(polyIsZero(rem))return R;
+
+    const lk=polyLeadingKey(rem),le=decodeKey(lk),lc=rem[lk];
+    const rk=polyLeadingKey(R),re=decodeKey(rk),rc=R[rk];
+    const baseExp={};
+    for(const v of Object.keys({...le,...re})){
+      const e=(le[v]||0)-((n-1)*(re[v]||0));
+      if(e<0||!Number.isInteger(e))return null;
+      if(e)baseExp[v]=e;
+    }
+    const denom=n*Math.pow(rc,n-1);
+    if(Math.abs(denom)<1e-15)return null;
+    const tc=lc/denom;
+    if(!Number.isFinite(tc)||Math.abs(tc)<1e-12)return null;
+    R=polyAdd(R,polyFromTerms([[baseExp,tc]]));
+  }
+  return null;
+}
+
+function symbolicTokens(input){
+  const s=input.trim(),t=[];let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/\s/.test(c)){i++;continue}
+    if(/[0-9.]/.test(c)){
+      let j=i,d=0;
+      while(j<s.length&&/[0-9.]/.test(s[j])){if(s[j]===".")d++;j++}
+      if(d>1)throw new Error("Некорректное число.");
+      t.push({type:"number",value:Number(s.slice(i,j))});i=j;continue;
+    }
+    if(/[A-Za-z]/.test(c)){
+      let j=i+1;
+      while(j<s.length&&/[A-Za-z]/.test(s[j]))j++;
+      const name=s.slice(i,j).toLowerCase();
+      if(name==="pi")t.push({type:"number",value:Math.PI});
+      else if(name==="e")t.push({type:"var",value:"e"});
+      else {
+        // Для алгебры ab означает a*b, а не отдельную переменную "ab".
+        for(const ch of name)t.push({type:"var",value:ch});
+      }
+      i=j;continue;
+    }
+    if(s.startsWith("**",i)){t.push({type:"op",value:"**"});i+=2;continue}
+    if("+-*/()".includes(c)){t.push({type:c==="("||c===")"?"paren":"op",value:c});i++;continue}
+    throw new Error("Недопустимый символ.");
+  }
+
+  // Неявное умножение: 2a, ab, a(b+c), (a+b)(a-b).
+  const out=[];
+  const left=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value===")"));
+  const right=x=>x&&(x.type==="number"||x.type==="var"||(x.type==="paren"&&x.value==="("));
+  for(const x of t){
+    if(left(out[out.length-1])&&right(x))out.push({type:"op",value:"*"});
+    out.push(x);
+  }
+  return out;
+}
+
+function parseSymbolicPolynomial(input){
+  const tokens=symbolicTokens(input),out=[],stack=[];let expect=true;
+  const prec={"+":1,"-":1,"*":2,"/":2,"u+":3,"u-":3,"**":4};
+  const rightAssoc={"**":true,"u+":true,"u-":true};
+  for(const tok of tokens){
+    if(tok.type==="number"||tok.type==="var"){out.push(tok);expect=false;continue}
+    if(tok.type==="paren"){
+      if(tok.value==="("){stack.push(tok);expect=true}
+      else{
+        let ok=false;
+        while(stack.length){
+          const q=stack.pop();
+          if(q.type==="paren"){ok=true;break}
+          out.push(q);
+        }
+        if(!ok)throw new Error("Не закрыта/лишняя скобка.");
+        expect=false;
+      }
+      continue;
+    }
+    let op=tok.value;
+    if((op==="+"||op==="-")&&expect)op=op==="+"?"u+":"u-";
+    else if(expect)throw new Error("Некорректный оператор.");
+    while(stack.length&&stack[stack.length-1].type==="op"){
+      const top=stack[stack.length-1].value;
+      if(prec[top]>prec[op]||(prec[top]===prec[op]&&!rightAssoc[op]))out.push(stack.pop());else break;
+    }
+    stack.push({type:"op",value:op});expect=true;
+  }
+  if(expect)throw new Error("Некорректное выражение.");
+  while(stack.length){
+    const q=stack.pop();if(q.type==="paren")throw new Error("Не закрыта скобка.");out.push(q);
+  }
+
+  const st=[];
+  for(const q of out){
+    if(q.type==="number"){st.push(polyConst(q.value));continue}
+    if(q.type==="var"){st.push(polyVar(q.value));continue}
+    if(q.value==="u+"||q.value==="u-"){
+      if(!st.length)throw new Error("Некорректное выражение.");
+      const a=st.pop();st.push(q.value==="u-"?polyNeg(a):a);continue;
+    }
+    if(st.length<2)throw new Error("Некорректное выражение.");
+    const b=st.pop(),a=st.pop();
+    if(q.value==="+")st.push(polyAdd(a,b));
+    else if(q.value==="-")st.push(polyAdd(a,b,-1));
+    else if(q.value==="*")st.push(polyMul(a,b));
+    else if(q.value==="/"){
+      if(!polyIsConstant(b))throw new Error("Деление на буквенное выражение пока не поддерживается.");
+      const c=b[""]??0;if(Math.abs(c)<1e-15)throw new Error("Деление на ноль.");
+      st.push(polyScale(a,1/c));
+    }
+    else if(q.value==="**"){
+      if(!polyIsConstant(b))throw new Error("Степень должна быть числом.");
+      const e=b[""]??0;if(!Number.isInteger(e)||e<0)throw new Error("Степень должна быть целым неотрицательным числом.");
+      st.push(polyPow(a,e));
+    }
+  }
+  if(st.length!==1)throw new Error("Некорректное выражение.");
+  return st[0];
+}
+
+function formatCoefficient(c){
+  const rounded=Math.abs(c-Math.round(c))<1e-10?Math.round(c):Number(c.toPrecision(12));
+  return String(rounded).replace("-", "−");
+}
+function formatPolynomial(p){
+  if(polyIsZero(p))return "0";
+  const keys=Object.keys(p).sort(compareMonomialKeys).reverse();
+  const parts=[];
+  for(const k of keys){
+    const c=p[k],abs=Math.abs(c),e=decodeKey(k),vars=Object.keys(e).sort();
+    let mon="";
+    for(const v of vars){
+      const pow=e[v];
+      mon+=v+(pow===1?"":`^${pow}`);
+    }
+    const coeffOnly=mon==="";
+    const coeffText=formatCoefficient(abs);
+    let body;
+    if(coeffOnly)body=coeffText;
+    else if(Math.abs(abs-1)<1e-10)body=mon;
+    else body=coeffText+"·"+mon;
+    if(!parts.length)parts.push(c<0?"−"+body:body);
+    else parts.push((c<0?" − ":" + ")+body);
+  }
+  return parts.join("");
+}
+
+function showSymbolicRoots(P,n,label){
+  const R=polynomialNthRoot(P,n);
+  if(R===null)return false;
+
+  const rootText=formatPolynomial(R);
+  const zero=polyIsZero(R);
+  $("expression").textContent=`√[${n}](${label})`;
+  $("answer").className="answer small";
+
+  if(zero){
+    $("answer").textContent="0";
+    $("meta").textContent="точный буквенный результат";
+    renderSteps([
+      `1. ${label} = 0.`,
+      `2. Получаем x^${n} = 0.`,
+      `3. x = 0.`
+    ]);
+  }else if(n%2===0){
+    $("answer").innerHTML=`x₁ = −(${rootText})<br>x₂ = ${rootText}`;
+    $("meta").textContent="2 точных действительных корня";
+    renderSteps([
+      `1. Раскрываем и приводим выражение: ${label} = ${formatPolynomial(P)}.`,
+      `2. Распознаём точную ${n}-ю степень: ${formatPolynomial(P)} = (${rootText})^${n}.`,
+      `3. Для чётной степени подходят оба знака: x₁ = −(${rootText}), x₂ = ${rootText}.`
+    ]);
+  }else{
+    $("answer").textContent=rootText;
+    $("meta").textContent="точный буквенный результат";
+    renderSteps([
+      `1. Раскрываем и приводим выражение: ${label} = ${formatPolynomial(P)}.`,
+      `2. ${formatPolynomial(P)} = (${rootText})^${n}.`,
+      `3. Получаем x = ${rootText}.`
+    ]);
+  }
+  $("badge").textContent=T.ready;
+  return true;
+}
+
 function calculateReal(){
-const Atext=$("number").value.trim();
-const n=Math.max(2,Math.floor(Number($("degree").value)));
-const digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value))));
-const mode=$("method").value;
-if(!Atext||!Number.isFinite(n)){showError("Некорректные параметры");return}
+  const Atext=$("number").value.trim();
+  const n=Math.max(2,Math.floor(Number($("degree").value)));
+  const digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value))));
+  const mode=$("method").value;
+  if(!Atext||!Number.isFinite(n)){showError("Некорректные параметры");return}
 
-let A;
-try{A=evaluateExpression(Atext)}
-catch(e){showError(e.message||"Некорректное выражение.");return}
+  // Если есть буквы, сначала пытаемся решить задачу символически.
+  // Функции sin/cos/... оставляем численному парсеру.
+  const hasLetters=/[A-Za-z]/.test(Atext);
+  const hasFunctionName=/(^|[^A-Za-z])(sqrt|cbrt|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh|ln|log|abs|exp)(?=\s*\()/i.test(Atext);
+  if(hasLetters&&!hasFunctionName){
+    try{
+      const P=parseSymbolicPolynomial(Atext);
+      if(showSymbolicRoots(P,n,Atext))return;
+    }catch(e){
+      // Если это не полином, передаём выражение обычному численному парсеру.
+    }
+  }
 
-if(A<0&&n%2===0){showError(T.noRoot);return}
+  let A;
+  try{A=evaluateExpression(Atext)}
+  catch(e){showError(e.message||"Некорректное выражение.");return}
+  if(A<0&&n%2===0){showError(T.noRoot);return}
 
-const clean=Atext.replaceAll(",","");
-const integer=/^[+-]?\d+$/.test(clean);
-if(integer&&mode!=="numeric"){
-try{
-const big=BigInt(clean),positive=big>=0n,abs=positive?big:-big;
-const exact=integerRootExact(abs,n);
-if(exact!==null){
-const roots=(n%2===0&&positive&&exact!==0n)?[-exact,exact]:[positive?exact:-exact];
-$("expression").textContent=`√[${n}](${Atext})`;
-$("answer").className=roots.length>1?"answer small":"answer";
-$("answer").innerHTML=roots.map((x,i)=>roots.length>1?`x${i+1} = ${x}`:x).join("<br>");
-$("meta").textContent=roots.length>1?"2 точных действительных корня":"точный целый результат";
-$("badge").textContent=T.ready;
-renderSteps([
-`1. Проверяем, является ли |${Atext}| точной ${n}-й степенью.`,
-`2. ${exact}^${n} = ${abs}.`,
-roots.length>1?`3. При чётной степени оба знака подходят: x₁ = −${exact}, x₂ = ${exact}.`:`3. Получаем x = ${roots[0]}.`
-]);
-return;
-}
-}catch(e){}
-}
-numericReal(A,n,digits,Atext);
+  const clean=Atext.replaceAll(",",""),integer=/^[+-]?\d+$/.test(clean);
+  if(integer&&mode!=="numeric"){
+    try{
+      const big=BigInt(clean),positive=big>=0n,abs=positive?big:-big;
+      const exact=integerRootExact(abs,n);
+      if(exact!==null){
+        const roots=(n%2===0&&positive&&exact!==0n)?[-exact,exact]:[positive?exact:-exact];
+        $("expression").textContent=`√[${n}](${Atext})`;
+        $("answer").className=roots.length>1?"answer small":"answer";
+        $("answer").innerHTML=roots.map((x,i)=>roots.length>1?`x${i+1} = ${x}`:x).join("<br>");
+        $("meta").textContent=roots.length>1?"2 точных действительных корня":"точный целый результат";
+        $("badge").textContent=T.ready;
+        renderSteps([
+          `1. Проверяем, является ли |${Atext}| точной ${n}-й степенью.`,
+          `2. ${exact}^${n} = ${abs}.`,
+          roots.length>1?`3. При чётной степени оба знака подходят: x₁ = −${exact}, x₂ = ${exact}.`:`3. Получаем x = ${roots[0]}.`
+        ]);
+        return;
+      }
+    }catch(e){}
+  }
+  numericReal(A,n,digits,Atext);
 }
 
 function calculateComplex(){
