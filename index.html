@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -83,7 +81,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
   <button class="lang-add" id="addLanguageBtn" title="Добавить язык">＋ Язык</button>
   <button class="lang-add" id="supportBtn" title="Поддержка">☎ Поддержка</button>
 </header>
-
 <main>
 <div class="grid">
 <section class="card">
@@ -94,7 +91,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
       <option value="complex">Комплексный корень</option>
     </select>
   </div>
-
   <div class="field">
     <label id="numberLabel">Число</label>
     <input id="number" value="1048576" inputmode="decimal" autocomplete="off">
@@ -104,7 +100,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
       <button class="preset" data-value="123456789012345678901234567890">30 цифр</button>
     </div>
   </div>
-
   <div class="row">
     <div class="field">
       <label id="degreeLabel">Степень корня n</label>
@@ -115,14 +110,12 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
       <input id="accuracy" type="number" min="0" max="50" value="12">
     </div>
   </div>
-
   <div class="complex-fields" id="complexFields">
     <div class="row">
       <div class="field"><label id="realPartLabel">Действительная часть a</label><input id="realPart" value="3"></div>
       <div class="field"><label id="imagPartLabel">Мнимая часть b</label><input id="imagPart" value="4"></div>
     </div>
   </div>
-
   <div class="field">
     <label id="methodLabel">Режим</label>
     <select id="method">
@@ -131,13 +124,11 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
       <option value="analytic">Аналитический — радикал / точный ответ</option>
     </select>
   </div>
-
   <div class="actions">
     <button class="primary" id="calculate">Извлечь корень</button>
     <button class="secondary" id="clear">Сбросить</button>
   </div>
 </section>
-
 <section class="card">
   <div class="result-top">
     <div><strong id="resultTitle">Результат</strong></div>
@@ -148,7 +139,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
     <div class="answer" id="answer">1024</div>
     <div class="meta" id="meta">точный целый результат</div>
   </div>
-
   <div class="tabs">
     <button class="tab active" data-tab="steps" id="stepsTab">Шаги</button>
     <button class="tab" data-tab="info" id="infoTab">О методе</button>
@@ -159,10 +149,9 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
     <div class="support-box">
       <strong>Поддержка</strong>
       <div style="margin-top:8px;color:var(--muted);font-size:13px">Если у вас есть вопрос или проблема с калькулятором, свяжитесь с поддержкой.</div>
-      <a class="support-phone" id="supportPhone" href="tel:+7 000 000-00-00">☎ <span id="supportPhoneText">+7 000 000-00-00</span></a>
+      <a class="support-phone" id="supportPhone" href="[tel:+7 000 000-00-00](<tel:+7 000 000-00-00>)">☎ <span id="supportPhoneText">+7 000 000-00-00</span></a>
     </div>
   </div>
-
   <div class="features">
     <div class="feature"><b id="f1">Большие числа</b><span id="f1s">BigInt для целых чисел без потери точности.</span></div>
     <div class="feature"><b id="f2">Комплексные</b><span id="f2s">Все n комплексных корней через полярную форму.</span></div>
@@ -172,7 +161,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
 </div>
 </main>
 <footer id="footer">Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.</footer>
-
 <div class="modal" id="languageModal">
   <div class="modal-card">
     <h2>Добавить язык</h2>
@@ -193,7 +181,6 @@ footer{max-width:1180px;margin:auto;padding:0 22px 35px;color:#667391;font-size:
     <div class="modal-actions"><button class="secondary" id="cancelLanguage">Отмена</button><button class="primary" id="saveLanguage">Добавить язык</button></div>
   </div>
 </div>
-
 <script>
 const $=id=>document.getElementById(id);const SUPPORT_PHONE = "+7 000 000-00-00";
 const CUSTOM_LANG_KEY = "projectCalculatorCustomLanguages";
@@ -201,7 +188,6 @@ function getCustomLanguages(){try{return JSON.parse(localStorage.getItem(CUSTOM_
 function saveCustomLanguages(obj){localStorage.setItem(CUSTOM_LANG_KEY,JSON.stringify(obj))}
 function rebuildLanguageList(){const select=$("language"),custom=getCustomLanguages();Object.keys(custom).forEach(code=>{if(![...select.options].some(o=>o.value===code)){const o=document.createElement("option");o.value=code;o.textContent=custom[code].name||code;select.appendChild(o)}})}
 function addCustomLanguage(){const code=$("newLangCode").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"");const name=$("newLangName").value.trim();if(!code||!name){alert("Укажите код и название языка.");return}let translations;try{translations=JSON.parse($("newLangJson").value)}catch(e){alert("Ошибка в JSON переводов.");return}const custom=getCustomLanguages();custom[code]={name,...tr.ru,...translations};saveCustomLanguages(custom);rebuildLanguageList();$("language").value=code;$("languageModal").classList.remove("show");applyLanguage(code)}
-
 const tr={
 ru:{title:"Project-Calculator",subtitle:"точное и численное извлечение корней",type:"Тип задачи",real:"Действительный корень",complex:"Комплексный корень",number:"Число",degree:"Степень корня n",accuracy:"Знаков после запятой",method:"Режим",auto:"Автоматический — точно где возможно",numeric:"Численный — Newton",analytic:"Аналитический — радикал / точный ответ",calc:"Извлечь корень",clear:"Сбросить",result:"Результат",steps:"Шаги",info:"О методе",ready:"готово",exact:"точный целый результат",numericMeta:"численный результат методом Newton",radical:"аналитическая форма",f1:"Большие числа",f1s:"BigInt для целых чисел без потери точности.",f2:"Комплексные",f2s:"Все n комплексных корней через полярную форму.",f3:"Точность",f3s:"Настраиваемое число знаков и итерации Newton.",footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",realPart:"Действительная часть a",imagPart:"Мнимая часть b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Для комплексных чисел используются модуль и аргумент: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"Для чётной степени отрицательное число не имеет действительного корня."},
 en:{title:"Project-Calculator",subtitle:"exact and numerical root extraction",type:"Problem type",real:"Real root",complex:"Complex root",number:"Number",degree:"Root degree n",accuracy:"Decimal places",method:"Mode",auto:"Automatic — exact where possible",numeric:"Numerical — Newton",analytic:"Analytical — radical / exact answer",calc:"Extract root",clear:"Reset",result:"Result",steps:"Steps",info:"Method",ready:"ready",exact:"exact integer result",numericMeta:"numerical result by Newton's method",radical:"analytical form",f1:"Huge numbers",f1s:"BigInt handles huge integers without rounding.",f2:"Complex roots",f2s:"All n complex roots via polar form.",f3:"Precision",f3s:"Choose decimal places and Newton iterations.",footer:"Runs locally in your browser. Fractional values use JavaScript IEEE-754 precision.",realPart:"Real part a",imagPart:"Imaginary part b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n. Complex roots use modulus and argument: r^(1/n)·e^{i(θ+2πk)/n}.",noRoot:"An even-degree root of a negative number has no real value."},
@@ -214,7 +200,6 @@ bn:{title:"Project-Calculator",subtitle:"নির্ভুল ও সংখ্�
 pt:{title:"Project-Calculator",subtitle:"extração exata e numérica de raízes",type:"Tipo de problema",real:"Raiz real",complex:"Raiz complexa",number:"Número",degree:"Grau n",accuracy:"Casas decimais",method:"Modo",auto:"Automático — exato quando possível",numeric:"Numérico — Newton",analytic:"Analítico — radical / exato",calc:"Extrair raiz",clear:"Redefinir",result:"Resultado",steps:"Passos",info:"Método",ready:"pronto",exact:"resultado inteiro exato",numericMeta:"resultado numérico por Newton",radical:"forma analítica",f1:"Números grandes",f1s:"BigInt evita arredondamento em inteiros enormes.",f2:"Complexos",f2s:"Todas as n raízes complexas pela forma polar.",f3:"Precisão",f3s:"Escolha casas decimais e iterações de Newton.",footer:"Funciona localmente no navegador.",realPart:"Parte real a",imagPart:"Parte imaginária b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"Uma raiz de grau par de um número negativo não é real."},
 ur:{title:"Project-Calculator",subtitle:"درست اور عددی جذر نکالنا",type:"مسئلے کی قسم",real:"حقیقی جذر",complex:"مختلط جذر",number:"عدد",degree:"جذر کی طاقت n",accuracy:"اعشاری ہندسے",method:"موڈ",auto:"خودکار — جہاں ممکن ہو درست",numeric:"عددی — Newton",analytic:"تجزیاتی — ریڈیکل / درست جواب",calc:"جذر نکالیں",clear:"ری سیٹ",result:"نتیجہ",steps:"مراحل",info:"طریقہ",ready:"تیار",exact:"درست صحیح عددی نتیجہ",numericMeta:"Newton سے عددی نتیجہ",radical:"تجزیاتی شکل",f1:"بڑے اعداد",f1s:"BigInt بڑے صحیح اعداد کو بغیر rounding سنبھالتا ہے۔",f2:"مختلط اعداد",f2s:"قطبی شکل سے تمام n مختلط جذور۔",f3:"درستگی",f3s:"اعشاری ہندسے اور Newton iterations منتخب کریں۔",footer:"براؤزر میں مقامی طور پر چلتا ہے۔",realPart:"حقیقی حصہ a",imagPart:"خیالی حصہ b",methodInfo:"Newton: xₖ₊₁ = ((n−1)xₖ + A/xₖⁿ⁻¹) / n.",noRoot:"منفی عدد کا جفت درجے کا جذر حقیقی نہیں ہوتا۔"}
 };
-
 function gcd(a,b){while(b){let t=a%b;a=b;b=t}return a}
 function bigintPow(a,n){let r=1n,b=a;while(n){if(n&1)r*=b;b*=b;n>>=1}return r}
 function integerRootExact(A,n){
@@ -232,60 +217,351 @@ function formatNumber(x, digits){
   if(!Number.isFinite(x)) return "∞";
   return x.toLocaleString(undefined,{maximumFractionDigits:digits,useGrouping:false});
 }
+
+function symTokenize(s){
+  s=String(s).trim().replaceAll("π","pi").replace(/\*\*/g,"^");
+  const out=[]; let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/\s/.test(c)){i++;continue}
+    if(/[0-9.]/.test(c)){
+      const m=s.slice(i).match(/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+      if(!m)return null; out.push({t:"num",v:Number(m[0])}); i+=m[0].length; continue;
+    }
+    if(/[A-Za-z_]/.test(c)){
+      const m=s.slice(i).match(/^[A-Za-z_][A-Za-z0-9_]*/);
+      const word=m[0];
+      // In school-style algebra, ab means a·b. Keep known names such as
+      // sin, cos, pi and sqrt intact; split short lowercase variable runs.
+      const reserved=new Set(["pi","e","sqrt","cbrt","abs","exp","ln","log","log2","sin","cos","tan","cot","sec","csc","asin","acos","atan","acot","asec","acsc","sinh","cosh","tanh"]);
+      if(/^[a-z]{2,4}$/.test(word)&&!reserved.has(word)){
+        for(const ch of word)out.push({t:"id",v:ch});
+      }else out.push({t:"id",v:word});
+      i+=word.length; continue;
+    }
+    if("+-*/^()".includes(c)){out.push({t:c,v:c});i++;continue}
+    return null;
+  }
+  return out;
+}
+function symParse(s){
+  const tok=symTokenize(s); if(!tok||!tok.length)return null;
+  let i=0;
+  const funcs=new Set(["sqrt","cbrt","abs","exp","ln","log","log2","sin","cos","tan","cot","sec","csc","asin","acos","atan","acot","asec","acsc","sinh","cosh","tanh"]);
+  function peek(){return tok[i]}
+  function eat(t){if(peek()&&peek().t===t){i++;return true}return false}
+  function primary(){
+    const q=peek(); if(!q)return null;
+    if(eat("+"))return primary();
+    if(eat("-"))return {k:"neg",a:primary()};
+    if(eat("(")){const x=add(); if(!eat(")"))throw Error(); return x}
+    if(q.t==="num"){i++;return {k:"num",v:q.v}}
+    if(q.t==="id"){
+      i++;
+      if(eat("(")){
+        if(!funcs.has(q.v))throw Error();
+        const x=add(); if(!eat(")"))throw Error(); return {k:"fn",f:q.v,a:x};
+      }
+      return {k:"var",v:q.v};
+    }
+    return null;
+  }
+  function power(){let x=primary(); if(!x)return null; if(eat("^")){const y=power(); if(!y)throw Error(); x={k:"pow",a:x,b:y}} return x}
+  function mul(){
+    let x=power(); if(!x)return null;
+    while(true){
+      if(eat("*")){const y=power();if(!y)throw Error();x={k:"mul",a:x,b:y};continue}
+      if(eat("/")){const y=power();if(!y)throw Error();x={k:"div",a:x,b:y};continue}
+      const q=peek();
+      if(q&&(q.t==="num"||q.t==="id"||q.t==="(")){
+        const y=power();if(!y)throw Error();x={k:"mul",a:x,b:y};continue;
+      }
+      break;
+    }
+    return x;
+  }
+  function add(){
+    let x=mul();if(!x)return null;
+    while(true){
+      if(eat("+")){const y=mul();if(!y)throw Error();x={k:"add",a:x,b:y};continue}
+      if(eat("-")){const y=mul();if(!y)throw Error();x={k:"add",a:x,b:{k:"neg",a:y}};continue}
+      break;
+    }
+    return x;
+  }
+  try{const root=add(); if(i!==tok.length)throw Error(); return root}catch(e){return null}
+}
+function symNum(n){return {k:"num",v:n}}
+function symNeg(x){return {k:"neg",a:x}}
+function symKey(x){
+  if(!x)return "";
+  if(x.k==="num")return "#"+x.v;
+  if(x.k==="var")return x.v;
+  if(x.k==="fn")return x.f+"("+symKey(x.a)+")";
+  if(x.k==="neg")return "-"+symKey(x.a);
+  if(x.k==="pow")return "("+symKey(x.a)+")^"+symKey(x.b);
+  if(x.k==="mul")return "("+symKey(x.a)+"*"+symKey(x.b)+")";
+  if(x.k==="div")return "("+symKey(x.a)+"/"+symKey(x.b)+")";
+  if(x.k==="add")return "("+symKey(x.a)+"+"+symKey(x.b)+")";
+  return "?";
+}
+function symEq(a,b){return symKey(a)===symKey(b)}
+function symConst(x,n){return x&&x.k==="num"&&x.v===n}
+function symFactorList(x){
+  const out=[];
+  function walk(y){if(y&&y.k==="mul"){walk(y.a);walk(y.b)}else out.push(y)}
+  walk(x);return out;
+}
+function symMakeMul(list){return list.length===1?list[0]:list.reduce((a,b)=>({k:"mul",a,b}))}
+function symMakeAdd(list){return list.length===1?list[0]:list.reduce((a,b)=>({k:"add",a,b}))}
+function symSimplify(x){
+  if(!x)return x;
+  if(x.k==="num"||x.k==="var")return x;
+  if(x.k==="neg"){
+    const a=symSimplify(x.a); if(a.k==="num")return symNum(-a.v); if(a.k==="neg")return a.a; return {k:"neg",a};
+  }
+  if(x.k==="fn"){
+    const a=symSimplify(x.a);
+    // Main Pythagorean identity.
+    return {k:"fn",f:x.f,a};
+  }
+  if(x.k==="pow"){
+    const a=symSimplify(x.a),b=symSimplify(x.b);
+    if(symConst(b,0))return symNum(1); if(symConst(b,1))return a;
+    return {k:"pow",a,b};
+  }
+  if(x.k==="div"){
+    const a=symSimplify(x.a),b=symSimplify(x.b);
+    if(symConst(a,0))return symNum(0); if(symConst(b,1))return a;
+    return {k:"div",a,b};
+  }
+  if(x.k==="mul"){
+    const a=symSimplify(x.a),b=symSimplify(x.b);
+    if(symConst(a,0)||symConst(b,0))return symNum(0); if(symConst(a,1))return b; if(symConst(b,1))return a;
+    const fa=symFactorList(a),fb=symFactorList(b), fs=fa.concat(fb);
+    let num=1, rest=[]; for(const f of fs){if(f.k==="num")num*=f.v;else rest.push(f)}
+    // combine x*x -> x^2
+    const groups=[];
+    for(const f of rest){const idx=groups.findIndex(g=>symEq(g.base,f)); if(idx>=0)groups[idx].count++; else groups.push({base:f,count:1})}
+    const factors=[]; if(num!==1)factors.push(symNum(num));
+    for(const g of groups)factors.push(g.count===1?g.base:{k:"pow",a:g.base,b:symNum(g.count)});
+    return symMakeMul(factors);
+  }
+  if(x.k==="add"){
+    const a=symSimplify(x.a),b=symSimplify(x.b);
+    const terms=[];
+    function flatten(y){if(y.k==="add"){flatten(y.a);flatten(y.b)}else terms.push(y)} flatten(a);flatten(b);
+    // numeric combination
+    let numeric=0; const non=[];
+    for(const t of terms){if(t.k==="num")numeric+=t.v;else non.push(t)}
+    if(numeric!==0)non.unshift(symNum(numeric));
+    // sin(x)^2 + cos(x)^2 = 1, regardless of term order.
+    for(let p=0;p<non.length;p++)for(let q=p+1;q<non.length;q++){
+      const u=non[p],v=non[q];
+      if(u.k==="pow"&&v.k==="pow"&&symConst(u.b,2)&&symConst(v.b,2)&&u.a.k==="fn"&&v.a.k==="fn"&&((u.a.f==="sin"&&v.a.f==="cos")||(u.a.f==="cos"&&v.a.f==="sin"))&&symEq(u.a.a,v.a.a)){
+        non.splice(q,1);non.splice(p,1);non.unshift(symNum(1));break;
+      }
+    }
+    // a^2 + 2ab + b^2 -> (a+b)^2 (and swapped a,b)
+    if(non.length===3){
+      for(let i=0;i<3;i++)for(let j=i+1;j<3;j++)for(let k=0;k<3;k++)if(k!==i&&k!==j){
+        const s1=non[i],s2=non[j],mid=non[k];
+        if(s1.k==="pow"&&s2.k==="pow"&&symConst(s1.b,2)&&symConst(s2.b,2)){
+          const mf=symFactorList(mid); if(mf.length===3&&mf.some(f=>symConst(f,2))){
+            const vars=mf.filter(f=>!symConst(f,2));
+            if(vars.length===2 && ((symEq(vars[0],s1.a)&&symEq(vars[1],s2.a))||(symEq(vars[1],s1.a)&&symEq(vars[0],s2.a)))){
+              return {k:"pow",a:{k:"add",a:s1.a,b:s2.a},b:symNum(2)};
+            }
+          }
+        }
+      }
+    }
+    if(non.length===0)return symNum(0); if(non.length===1)return non[0];
+    return symMakeAdd(non);
+  }
+  return x;
+}
+function symFormat(x, parent=0){
+  if(x.k==="num")return String(x.v);
+  if(x.k==="var")return x.v;
+  if(x.k==="fn")return x.f+"("+symFormat(x.a)+")";
+  if(x.k==="neg")return "−"+symFormat(x.a,3);
+  if(x.k==="pow"){
+    const s=symFormat(x.a,4)+"^"+symFormat(x.b,4); return parent>3?"("+s+")":s;
+  }
+  if(x.k==="mul"){
+    const a=symFormat(x.a,2),b=symFormat(x.b,2);
+    const s=(x.a.k==="num"||x.a.k==="var"||x.a.k==="fn"||x.a.k==="pow"?a:"("+a+")")+"·"+(x.b.k==="num"||x.b.k==="var"||x.b.k==="fn"||x.b.k==="pow"?b:"("+b+")");
+    return parent>2?"("+s+")":s;
+  }
+  if(x.k==="div")return "("+symFormat(x.a)+")/(("+symFormat(x.b)+"))";
+  if(x.k==="add"){
+    const s=symFormat(x.a,1)+" + "+symFormat(x.b,1); return parent>1?"("+s+")":s;
+  }
+  return "?";
+}
+function calculateSymbolic(Atext,n,mode,digits){
+  const ast=symParse(Atext); if(!ast)return false;
+  const simplified=symSimplify(ast);
+  const shown=symFormat(simplified);
+  const isIdentity=symConst(simplified,1)&&/sin|cos/.test(Atext);
+  $("expression").textContent="Выражение: "+Atext;
+  $("answer").className="answer small";
+
+  // The calculator extracts roots, so keep the symbolic radicand and
+  // simplify the root when a safe symbolic result is available.
+  let result;
+  if(symConst(simplified,1)){
+    result=n%2===0?["+1","−1"]:["1"];
+  }else if(simplified.k==="pow" && symConst(simplified.b,2) && n===2){
+    // √(u²) = |u| over the reals. For the even root, the two solutions
+    // of x²=u² are +|u| and −|u|.
+    const u=symFormat(simplified.a);
+    result=["+|"+u+"|","−|"+u+"|"];
+  }else{
+    result=[radical(shown,n)];
+  }
+  $("answer").innerHTML=result.join("<br>");
+  $("meta").textContent=isIdentity?"Тригонометрическое тождество — упрощено":"Символьное выражение — упрощено под корнем";
+  $("badge").textContent=T.ready;
+  const steps=[`1. Распознаём выражение как символьное: ${Atext}.`,`2. Упрощаем подкоренное выражение: ${shown}.`,`3. Результат извлечения ${n}-й степени: ${result.join(" и ")}.`];
+  if(/sin\s*\([^)]*\)\s*\^\s*2/.test(Atext)&&/cos\s*\([^)]*\)\s*\^\s*2/.test(Atext))steps.splice(2,0,"Использовано тождество: sin²(x) + cos²(x) = 1.");
+  if(simplified.k==="pow"&&symConst(simplified.b,2)&&n===2)steps.splice(2,0,"Учтено: √(u²) = |u| для действительных значений u.");
+  renderSteps(steps);
+  return true;
+}
+
 function parseReal(s){
-  s=s.trim().replaceAll(",","");
+  s=String(s).trim().replaceAll(",","").replaceAll("π","pi").replaceAll("√","sqrt");
   if(!s)return NaN;
-  return Number(s);
+  const names={
+    pi:"Math.PI", e:"Math.E", sqrt:"Math.sqrt", cbrt:"Math.cbrt",
+    abs:"Math.abs", exp:"Math.exp", ln:"Math.log", log:"Math.log10", log2:"Math.log2",
+    sin:"Math.sin", cos:"Math.cos", tan:"Math.tan",
+    cot:"__cot", sec:"__sec", csc:"__csc",
+    asin:"Math.asin", acos:"Math.acos", atan:"Math.atan",
+    acot:"__acot", asec:"__asec", acsc:"__acsc",
+    sinh:"Math.sinh", cosh:"Math.cosh", tanh:"Math.tanh",
+    floor:"Math.floor", ceil:"Math.ceil"
+  };
+  if(!/^[0-9A-Za-z_+\-*/().^%\s]+$/.test(s))return NaN;
+  const tokens=s.match(/[A-Za-z_]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|./g)||[];
+  for(const token of tokens){
+    if(/^[A-Za-z_]+$/.test(token) && !Object.prototype.hasOwnProperty.call(names,token))return NaN;
+  }
+  // Implicit multiplication: 2pi, 2(3+4), (2+3)pi, pi(2+3)
+  s=s.replace(/(\d|\)|pi|e)\s*(?=(\(|pi\b|e\b))/g,"$1*");
+  s=s.replace(/\)\s*(?=\d)/g,")*");
+  s=s.replace(/\b([A-Za-z_]+)\b/g,(m)=>names[m]||m);
+  s=s.replace(/\^/g,"**");
+  try{
+    const env={
+      __cot:x=>1/Math.tan(x), __sec:x=>1/Math.cos(x), __csc:x=>1/Math.sin(x),
+      __acot:x=>Math.atan2(1,x), __asec:x=>Math.acos(1/x), __acsc:x=>Math.asin(1/x)
+    };
+    const value=Function("env",'"use strict"; return ('+s+');')(env);
+    return Number.isFinite(value)?value:NaN;
+  }catch(e){return NaN;}
 }
 function radical(A,n){
   if(n===2)return "√("+A+")";
-  return "ⁿ√("+A+")".replace("ⁿ", n);
+  return "√["+n+"]("+A+")";
 }
-function renderSteps(items){$("steps").innerHTML=items.map(x=>`<div class="step">${x}</div>`).join("")}
 
+function renderSteps(items){$("steps").innerHTML=items.map(x=>`<div class="step">${x}</div>`).join("")}
 function calculateReal(){
-  const Atext=$("number").value.trim(), n=Math.max(2,Math.floor(Number($("degree").value))), digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value))));
-  const mode=$("method").value;
+  const Atext=$("number").value.trim(),
+        n=Math.max(2,Math.floor(Number($("degree").value))),
+        digits=Math.min(50,Math.max(0,Math.floor(Number($("accuracy").value)))),
+        mode=$("method").value;
   if(!Atext || !Number.isFinite(n)){showError("Некорректные параметры");return}
-  const integer=/^[+-]?\\d+$/.test(Atext.replaceAll(",",""));
-  const clean=Atext.replaceAll(",","");
-  if(integer && !clean.startsWith("-")){
+
+  const clean=Atext.replaceAll(",","").trim();
+  const integer=/^[+-]?\d+$/.test(clean);
+  let A;
+
+  // Keep huge plain integers exact with BigInt.
+  if(integer){
     try{
-      const A=BigInt(clean), exact=integerRootExact(A,n);
-      $("expression").textContent=(n===2?"√":"ⁿ√").replace("ⁿ",n)+A.toString();
+      const bigA=BigInt(clean);
+      if(bigA<0n && n%2===0){showError(T.noRoot);return}
+      const exact=integerRootExact(bigA<0n?-bigA:bigA,n);
+      $("expression").textContent=radical(Atext,n);
+
       if(exact!==null && mode!=="numeric"){
-        $("answer").textContent=exact.toString();
-        $("meta").textContent=T.exact;
+        const signed=bigA<0n?"−":"";
+        const values=bigA===0n?["0"]:(n%2===0?[exact.toString(),"−"+exact.toString()]:[signed+exact.toString()]);
+        $("answer").className=values.length>1?"answer":"answer";
+        $("answer").innerHTML=values.join("<br>");
+        $("meta").textContent=T.exact+(values.length>1?" — 2 действительных корня":"");
         $("badge").textContent=T.ready;
-        renderSteps([
-          `1. Проверяем, является ли ${A.toString()} точной ${n}-й степенью.`,
-          `2. ${exact.toString()}^${n} = ${A.toString()}.`,
-          `3. Следовательно, √[${n}](${A.toString()}) = ${exact.toString()}.`
+        renderSteps(values.length>1?[
+          `1. Проверяем, является ли ${bigA.toString()} точной ${n}-й степенью по модулю.`,
+          `2. ${exact.toString()}^${n} = ${bigA<0n?(-bigA).toString():bigA.toString()}.`,
+          `3. Так как степень ${n} чётная, получаем два действительных корня: +${exact.toString()} и −${exact.toString()}.`
+        ]:[
+          `1. Проверяем, является ли ${bigA.toString()} точной ${n}-й степенью.`,
+          `2. ${exact.toString()}^${n} = ${bigA.toString()}.`,
+          `3. Следовательно, корень = ${values[0]}.`
         ]);
       }else{
-        const num=Number(A);
+        const num=Number(bigA);
         if(!Number.isFinite(num)){showError("Число слишком велико для численного режима. Используйте автоматический/аналитический режим для целого числа.");return}
-        numericReal(num,n,digits,A.toString());
+        numericReal(num,n,digits,Atext);
       }
       return;
     }catch(e){}
   }
-  const A=parseReal(Atext);
-  if(!Number.isFinite(A)){showError("Введите корректное число.");return}
+
+  A=parseReal(Atext);
+  if(!Number.isFinite(A)){
+    if(calculateSymbolic(Atext,n,mode,digits)) return;
+    showError("Введите число, математическое выражение или выражение с буквами. Например: a^2+2ab+b^2 или sin(x)^2+cos(x)^2.");
+    return;
+  }
   if(A<0 && n%2===0){showError(T.noRoot);return}
+
   if(mode==="analytic"){
     $("expression").textContent=radical(Atext,n);
-    $("answer").textContent=radical(Atext,n);
     $("answer").className="answer small";
-    $("meta").textContent=T.radical;
+    if(A===0){
+      $("answer").textContent="0";
+    }else if(n%2===0){
+      $("answer").innerHTML="+"+radical(Atext,n)+"<br>−"+radical(Atext,n);
+    }else{
+      $("answer").textContent=radical(Atext,n);
+    }
+    $("meta").textContent=T.radical+(n%2===0 && A!==0?" — 2 действительных корня":"");
     $("badge").textContent=T.ready;
-    renderSteps([`1. Записываем число под корнем: √[${n}](${Atext}).`,`2. Точный аналитический вид сохраняется как радикал.`,`3. Для десятичного приближения переключите режим на «Численный — Newton».`]);
+    renderSteps(n%2===0 && A!==0?[
+      `1. Вычисляем выражение: ${Atext} = ${formatNumber(A,digits+4)}.`,
+      `2. Записываем ${n}-й корень из полученного значения.`,
+      `3. Для чётной степени положительного числа существуют два действительных корня: +√[${n}](${Atext}) и −√[${n}](${Atext}).`
+    ].map(x=>x.replace("${"+n+"}",n)):[
+      `1. Вычисляем выражение: ${Atext} = ${formatNumber(A,digits+4)}.`,
+      `2. Записываем корень: √[${n}](${Atext}).`,
+      `3. Для десятичного приближения переключите режим на «Численный — Newton».`
+    ]);
   }else numericReal(A,n,digits,Atext);
 }
+
 function numericReal(A,n,digits,label){
-  let x=A===0?0:Math.sign(A)*Math.pow(Math.abs(A),1/n);
-  if(!Number.isFinite(x))x=1;
+  if(A<0 && n%2===0){showError(T.noRoot);return}
+  if(A===0){
+    $("expression").textContent=`√[${n}](${label})`;
+    $("answer").className="answer";
+    $("answer").textContent="0";
+    $("meta").textContent=T.numericMeta;
+    $("badge").textContent=T.ready;
+    renderSteps(["1. Выражение равно 0.","2. Единственный действительный корень: 0."]);
+    return;
+  }
+
+  const sign=A<0?-1:1, absA=Math.abs(A);
+  let x=sign*Math.pow(absA,1/n);
+  if(!Number.isFinite(x))x=sign;
   const steps=[`1. Начальное приближение x₀ ≈ ${formatNumber(x,digits+4)}.`];
+
   for(let i=0;i<80;i++){
     if(x===0)break;
     const nx=((n-1)*x + A/Math.pow(x,n-1))/n;
@@ -293,13 +569,18 @@ function numericReal(A,n,digits,label){
     if(Math.abs(nx-x)<=Math.max(1e-15,Math.pow(10,-Math.min(15,digits+2)))*Math.max(1,Math.abs(nx))){x=nx;break}
     x=nx;
   }
+
+  const positive=Math.abs(x), values=(n%2===0)?[positive,-positive]:[x];
   $("expression").textContent=`√[${n}](${label})`;
-  $("answer").className="answer";
-  $("answer").textContent=formatNumber(x,digits);
-  $("meta").textContent=T.numericMeta;
+  $("answer").className=values.length>1?"answer":"answer";
+  $("answer").innerHTML=values.map(v=>formatNumber(v,digits)).join("<br>");
+  $("meta").textContent=T.numericMeta+(values.length>1?" — 2 действительных корня":"");
   $("badge").textContent=T.ready;
+  if(values.length>1)steps.push(`Итог: x₁ = +${formatNumber(positive,digits)}, x₂ = −${formatNumber(positive,digits)}.`);
+  else steps.push(`Итог: x = ${formatNumber(x,digits)}.`);
   renderSteps(steps.slice(-Math.min(12,steps.length)));
 }
+
 function calculateComplex(){
   const n=Math.max(2,Math.floor(Number($("degree").value))),digits=Math.min(20,Math.max(0,Math.floor(Number($("accuracy").value))));
   const a=parseReal($("realPart").value),b=parseReal($("imagPart").value);
@@ -325,7 +606,6 @@ function calculateComplex(){
 }
 function showError(msg){$("badge").textContent="error";$("expression").textContent="";$("answer").className="answer error";$("answer").textContent=msg;$("meta").textContent="";renderSteps([])}
 function calculate(){ $("type").value==="complex"?calculateComplex():calculateReal() }
-
 let T=tr.ru;
 function applyLanguage(lang){
   const custom=getCustomLanguages();
@@ -346,7 +626,6 @@ $("addLanguageBtn").onclick=()=>$("languageModal").classList.add("show");
 $("cancelLanguage").onclick=()=>$("languageModal").classList.remove("show");
 $("languageModal").addEventListener("click",e=>{if(e.target.id==="languageModal")e.currentTarget.classList.remove("show")});
 $("saveLanguage").onclick=addCustomLanguage;
-
 $("calculate").onclick=calculate;
 $("clear").onclick=()=>{$("number").value="1048576";$("degree").value=2;$("accuracy").value=12;$("realPart").value=3;$("imagPart").value=4;calculate()};
 $("type").onchange=()=>{$("complexFields").classList.toggle("show",$("type").value==="complex");$("number").parentElement.style.display=$("type").value==="complex"?"none":"block";calculate()};
