@@ -343,5 +343,987 @@ select:focus{
 }
 
 .support-phone{
-  display:inline-fl
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  margin-top:14px;
+  padding:13px 16px;
+  border-radius:12px;
+  background:#18223a;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:800;
+  border:1px solid var(--border);
+}
+
+.support-phone:hover{
+  border-color:var(--accent);
+  filter:brightness(1.08);
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(3,7,16,.78);
+  z-index:20;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:min(680px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.modal-card h2{
+  margin:0 0 7px;
+}
+
+.modal-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.modal-card textarea{
+  width:100%;
+  min-height:190px;
+  resize:vertical;
+  padding:12px 14px;
+  background:#0e1629;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font:12px ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+.modal-actions{
+  display:flex;
+  gap:9px;
+  justify-content:flex-end;
+  margin-top:12px;
+}
+
+footer{
+  max-width:1180px;
+  margin:auto;
+  padding:0 22px 35px;
+  color:#667391;
+  font-size:11px;
+  text-align:center;
+}
+
+@media(max-width:850px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .answer{
+    font-size:25px;
+  }
+
+  header{
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">√</div>
+    <div>
+      <h1 id="title">Project-Calculator</h1>
+      <div class="subtitle" id="subtitle">
+        точное и численное извлечение корней
+      </div>
+    </div>
+  </div>
+
+  <select class="lang" id="language" aria-label="Language">
+    <option value="en">English</option>
+    <option value="zh">中文</option>
+    <option value="hi">हिन्दी</option>
+    <option value="es">Español</option>
+    <option value="fr">Français</option>
+    <option value="ar">العربية</option>
+    <option value="bn">বাংলা</option>
+    <option value="pt">Português</option>
+    <option value="ru" selected>Русский</option>
+    <option value="ur">اردو</option>
+  </select>
+
+  <button class="lang-add" id="addLanguageBtn">
+    ＋ Язык
+  </button>
+
+  <button class="lang-add" id="supportBtn">
+    ☎ Поддержка
+  </button>
+</header>
+
+<main>
+<div class="grid">
+
+<section class="card">
+
+  <div class="field">
+    <label id="typeLabel">Тип задачи</label>
+
+    <select id="type">
+      <option value="real">Действительный корень</option>
+      <option value="complex">Комплексный корень</option>
+    </select>
+  </div>
+
+  <div class="field" id="numberField">
+
+    <label id="numberLabel">Число или выражение</label>
+
+    <input
+      id="number"
+      value="4"
+      inputmode="decimal"
+      autocomplete="off"
+      placeholder="Например: sin(a)**2 + cos(a)**2"
+    >
+
+    <div class="presets">
+      <button class="preset" data-value="4">4</button>
+
+      <button class="preset" data-value="(a+b)**2">
+        (a+b)²
+      </button>
+
+      <button class="preset" data-value="sin(pi/2)">
+        sin(π/2)
+      </button>
+
+      <button class="preset" data-value="sin(a)**2 + cos(a)**2">
+        sin²(a)+cos²(a)
+      </button>
+
+      <button class="preset" data-value="sin(a)**2 + sin(a)**2">
+        2sin²(a)
+      </button>
+
+      <button class="preset" data-value="1000000000000000000000000000000">
+        10³⁰
+      </button>
+
+      <button class="preset" data-value="123456789012345678901234567890">
+        30 цифр
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="field">
+      <label id="degreeLabel">Степень корня n</label>
+      <input id="degree" type="number" min="2" max="1000" value="2">
+    </div>
+
+    <div class="field">
+      <label id="accuracyLabel">Знаков после запятой</label>
+      <input id="accuracy" type="number" min="0" max="50" value="12">
+    </div>
+
+  </div>
+
+  <div class="complex-fields" id="complexFields">
+
+    <div class="row">
+
+      <div class="field">
+        <label id="realPartLabel">Действительная часть a</label>
+        <input id="realPart" value="3">
+      </div>
+
+      <div class="field">
+        <label id="imagPartLabel">Мнимая часть b</label>
+        <input id="imagPart" value="4">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="field">
+
+    <label id="methodLabel">Режим</label>
+
+    <select id="method">
+      <option value="auto">
+        Автоматический — точно где возможно
+      </option>
+
+      <option value="numeric">
+        Численный — Newton
+      </option>
+
+      <option value="analytic">
+        Аналитический — радикал / точный ответ
+      </option>
+    </select>
+
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="calculate">
+      Извлечь корень
+    </button>
+
+    <button class="secondary" id="clear">
+      Сбросить
+    </button>
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <div class="result-top">
+
+    <div>
+      <strong id="resultTitle">Результат</strong>
+    </div>
+
+    <div class="badge" id="badge">
+      готово
+    </div>
+
+  </div>
+
+  <div class="result" id="result">
+
+    <div class="expression" id="expression">
+      √1048576
+    </div>
+
+    <div class="answer" id="answer">
+      1024
+    </div>
+
+    <div class="meta" id="meta">
+      точный целый результат
+    </div>
+
+  </div>
+
+  <div class="tabs">
+
+    <button class="tab active" data-tab="steps" id="stepsTab">
+      Шаги
+    </button>
+
+    <button class="tab" data-tab="info" id="infoTab">
+      О методе
+    </button>
+
+  </div>
+
+  <div class="panel" id="steps"></div>
+
+  <div class="panel" id="info" style="display:none"></div>
+
+  <div class="support-panel" id="supportPanel">
+
+    <div class="support-box">
+
+      <strong>Поддержка</strong>
+
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">
+        Если у вас есть вопрос или проблема с калькулятором,
+        свяжитесь с поддержкой.
+      </div>
+
+      <a
+        class="support-phone"
+        id="supportPhone"
+        href="tel:+70000000000"
+      >
+        ☎
+        <span id="supportPhoneText">
+          +7 000 000-00-00
+        </span>
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="features">
+
+    <div class="feature">
+      <b id="f1">Большие числа</b>
+      <span id="f1s">
+        BigInt для целых чисел без потери точности.
+      </span>
+    </div>
+
+    <div class="feature">
+      <b id="f2">Символьные и комплексные</b>
+      <span id="f2s">
+        Буквенные выражения и комплексные корни.
+      </span>
+    </div>
+
+    <div class="feature">
+      <b id="f3">Точность</b>
+      <span id="f3s">
+        Настраиваемое число знаков и итерации Newton.
+      </span>
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+</main>
+
+<footer id="footer">
+  Работает локально в браузере.
+  Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.
+</footer>
+
+
+<div class="modal" id="languageModal">
+
+  <div class="modal-card">
+
+    <h2>Добавить язык</h2>
+
+    <p>
+      Новый язык сохраняется в этом браузере.
+      Укажите код и название языка, затем вставьте JSON-переводы.
+    </p>
+
+    <div class="row">
+
+      <div class="field">
+        <label>Код языка</label>
+        <input id="newLangCode" placeholder="de">
+      </div>
+
+      <div class="field">
+        <label>Название в списке</label>
+        <input id="newLangName" placeholder="Deutsch">
+      </div>
+
+    </div>
+
+    <div class="field">
+
+      <label>Переводы JSON</label>
+
+      <textarea id="newLangJson" spellcheck="false">{
+  "title": "Project-Calculator",
+  "subtitle": "exact and numerical root extraction",
+  "type": "Problem type",
+  "real": "Real root",
+  "complex": "Complex root",
+  "number": "Number or expression",
+  "degree": "Root degree n",
+  "accuracy": "Decimal places",
+  "method": "Mode",
+  "auto": "Automatic — exact where possible",
+  "numeric": "Numerical — Newton",
+  "analytic": "Analytical — radical / exact answer",
+  "calc": "Extract root",
+  "clear": "Reset",
+  "result": "Result",
+  "steps": "Steps",
+  "info": "Method",
+  "ready": "ready",
+  "exact": "exact integer result",
+  "numericMeta": "numerical result by Newton's method",
+  "radical": "analytical form",
+  "f1": "Huge numbers",
+  "f1s": "BigInt handles huge integers without rounding.",
+  "f2": "Symbolic and complex",
+  "f2s": "Symbolic expressions and complex roots.",
+  "f3": "Precision",
+  "f3s": "Choose decimal places and Newton iterations.",
+  "footer": "Runs locally in your browser.",
+  "realPart": "Real part a",
+  "imagPart": "Imaginary part b",
+  "methodInfo": "Newton method and symbolic simplification.",
+  "noRoot": "An even-degree root of a negative number has no real value."
+}</textarea>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button class="secondary" id="cancelLanguage">
+        Отмена
+      </button>
+
+      <button class="primary" id="saveLanguage">
+        Добавить язык
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const SUPPORT_PHONE = "+7 000 000-00-00";
+const CUSTOM_LANG_KEY = "projectCalculatorCustomLanguages";
+
+let T;
+
+
+/* =========================================================
+   TRANSLATIONS
+========================================================= */
+
+const tr = {
+
+ru:{
+title:"Project-Calculator",
+subtitle:"точное и численное извлечение корней",
+type:"Тип задачи",
+real:"Действительный корень",
+complex:"Комплексный корень",
+number:"Число или выражение",
+degree:"Степень корня n",
+accuracy:"Знаков после запятой",
+method:"Режим",
+auto:"Автоматический — точно где возможно",
+numeric:"Численный — Newton",
+analytic:"Аналитический — радикал / точный ответ",
+calc:"Извлечь корень",
+clear:"Сбросить",
+result:"Результат",
+steps:"Шаги",
+info:"О методе",
+ready:"готово",
+exact:"точный целый результат",
+numericMeta:"численный результат методом Newton",
+radical:"аналитическая форма",
+f1:"Большие числа",
+f1s:"BigInt для целых чисел без потери точности.",
+f2:"Символьные и комплексные",
+f2s:"Буквенные выражения и комплексные корни.",
+f3:"Точность",
+f3s:"Настраиваемое число знаков и итерации Newton.",
+footer:"Работает локально в браузере. Для сверхбольших дробных чисел точность JavaScript ограничена IEEE-754.",
+realPart:"Действительная часть a",
+imagPart:"Мнимая часть b",
+methodInfo:"Поддерживаются численные вычисления, буквенные выражения и стандартное тождество sin²(x)+cos²(x)=1.",
+noRoot:"Для чётной степени отрицательное число не имеет действительного корня."
+},
+
+en:{
+title:"Project-Calculator",
+subtitle:"exact and numerical root extraction",
+type:"Problem type",
+real:"Real root",
+complex:"Complex root",
+number:"Number or expression",
+degree:"Root degree n",
+accuracy:"Decimal places",
+method:"Mode",
+auto:"Automatic — exact where possible",
+numeric:"Numerical — Newton",
+analytic:"Analytical — radical / exact answer",
+calc:"Extract root",
+clear:"Reset",
+result:"Result",
+steps:"Steps",
+info:"Method",
+ready:"ready",
+exact:"exact integer result",
+numericMeta:"numerical result by Newton's method",
+radical:"analytical form",
+f1:"Huge numbers",
+f1s:"BigInt handles huge integers without rounding.",
+f2:"Symbolic and complex",
+f2s:"Symbolic expressions and complex roots.",
+f3:"Precision",
+f3s:"Choose decimal places and Newton iterations.",
+footer:"Runs locally in your browser.",
+realPart:"Real part a",
+imagPart:"Imaginary part b",
+methodInfo:"Supports numerical calculations, symbolic expressions and sin²(x)+cos²(x)=1.",
+noRoot:"An even-degree root of a negative number has no real value."
+},
+
+zh:{
+title:"Project-Calculator",
+subtitle:"精确与数值开方",
+type:"题目类型",
+real:"实数根",
+complex:"复数根",
+number:"数字或表达式",
+degree:"根的次数 n",
+accuracy:"小数位",
+method:"模式",
+auto:"自动 — 可精确时优先",
+numeric:"数值 — Newton",
+analytic:"解析 — 根式 / 精确结果",
+calc:"计算根",
+clear:"重置",
+result:"结果",
+steps:"步骤",
+info:"方法",
+ready:"就绪",
+exact:"精确整数结果",
+numericMeta:"Newton 数值结果",
+radical:"解析根式",
+f1:"超大整数",
+f1s:"BigInt 处理超大整数。",
+f2:"符号与复数",
+f2s:"支持符号表达式和复数根。",
+f3:"精度",
+f3s:"可设置小数位和 Newton 迭代。",
+footer:"完全在浏览器本地运行。",
+realPart:"实部 a",
+imagPart:"虚部 b",
+methodInfo:"支持数值计算、符号表达式以及 sin²(x)+cos²(x)=1。",
+noRoot:"偶数次根不能得到负数的实数结果。"
+},
+
+hi:{
+title:"Project-Calculator",
+subtitle:"सटीक और संख्यात्मक मूल निकालना",
+type:"समस्या का प्रकार",
+real:"वास्तविक मूल",
+complex:"कॉम्प्लेक्स मूल",
+number:"संख्या या अभिव्यक्ति",
+degree:"मूल की घात n",
+accuracy:"दशमलव स्थान",
+method:"मोड",
+auto:"स्वचालित — जहाँ संभव हो सटीक",
+numeric:"संख्यात्मक — Newton",
+analytic:"विश्लेषणात्मक",
+calc:"मूल निकालें",
+clear:"रीसेट",
+result:"परिणाम",
+steps:"चरण",
+info:"विधि",
+ready:"तैयार",
+exact:"सटीक परिणाम",
+numericMeta:"Newton से संख्यात्मक परिणाम",
+radical:"विश्लेषणात्मक रूप",
+f1:"बड़ी संख्याएँ",
+f1s:"BigInt बड़े पूर्णांकों को संभालता है।",
+f2:"कॉम्प्लेक्स और प्रतीकात्मक",
+f2s:"प्रतीकात्मक अभिव्यक्तियाँ और कॉम्प्लेक्स मूल।",
+f3:"सटीकता",
+f3s:"दशमलव और Newton iterations चुनें।",
+footer:"ब्राउज़र में स्थानीय रूप से चलता है।",
+realPart:"वास्तविक भाग a",
+imagPart:"काल्पनिक भाग b",
+methodInfo:"संख्यात्मक और प्रतीकात्मक गणना।",
+noRoot:"सम घात वाले ऋणात्मक मूल का वास्तविक मान नहीं होता।"
+},
+
+es:{
+title:"Project-Calculator",
+subtitle:"extracción exacta y numérica de raíces",
+type:"Tipo de problema",
+real:"Raíz real",
+complex:"Raíz compleja",
+number:"Número o expresión",
+degree:"Grado n",
+accuracy:"Decimales",
+method:"Modo",
+auto:"Automático — exacto cuando es posible",
+numeric:"Numérico — Newton",
+analytic:"Analítico — radical / exacto",
+calc:"Extraer raíz",
+clear:"Restablecer",
+result:"Resultado",
+steps:"Pasos",
+info:"Método",
+ready:"listo",
+exact:"resultado entero exacto",
+numericMeta:"resultado numérico por Newton",
+radical:"forma analítica",
+f1:"Números grandes",
+f1s:"BigInt evita redondeos.",
+f2:"Simbólico y complejo",
+f2s:"Expresiones simbólicas y raíces complejas.",
+f3:"Precisión",
+f3s:"Elige decimales e iteraciones.",
+footer:"Funciona localmente en el navegador.",
+realPart:"Parte real a",
+imagPart:"Parte imaginaria b",
+methodInfo:"Cálculo numérico y simbólico.",
+noRoot:"Una raíz de grado par de un número negativo no es real."
+},
+
+fr:{
+title:"Project-Calculator",
+subtitle:"extraction exacte et numérique des racines",
+type:"Type de problème",
+real:"Racine réelle",
+complex:"Racine complexe",
+number:"Nombre ou expression",
+degree:"Degré n",
+accuracy:"Décimales",
+method:"Mode",
+auto:"Automatique — exact si possible",
+numeric:"Numérique — Newton",
+analytic:"Analytique — radical / exact",
+calc:"Extraire la racine",
+clear:"Réinitialiser",
+result:"Résultat",
+steps:"Étapes",
+info:"Méthode",
+ready:"prêt",
+exact:"résultat entier exact",
+numericMeta:"résultat numérique par Newton",
+radical:"forme analytique",
+f1:"Grands nombres",
+f1s:"BigInt gère les grands entiers.",
+f2:"Symbolique et complexe",
+f2s:"Expressions symboliques et racines complexes.",
+f3:"Précision",
+f3s:"Choisissez les décimales.",
+footer:"Fonctionne localement.",
+realPart:"Partie réelle a",
+imagPart:"Partie imaginaire b",
+methodInfo:"Calcul numérique et symbolique.",
+noRoot:"Une racine paire d’un nombre négatif n’est pas réelle."
+},
+
+ar:{
+title:"Project-Calculator",
+subtitle:"استخراج الجذور بدقة وبالطرق العددية",
+type:"نوع المسألة",
+real:"جذر حقيقي",
+complex:"جذر مركب",
+number:"العدد أو التعبير",
+degree:"درجة الجذر n",
+accuracy:"المنازل العشرية",
+method:"الوضع",
+auto:"تلقائي — دقيق متى أمكن",
+numeric:"عددي — Newton",
+analytic:"تحليلي",
+calc:"استخراج الجذر",
+clear:"إعادة ضبط",
+result:"النتيجة",
+steps:"الخطوات",
+info:"الطريقة",
+ready:"جاهز",
+exact:"نتيجة دقيقة",
+numericMeta:"نتيجة عددية بطريقة Newton",
+radical:"صيغة تحليلية",
+f1:"أعداد ضخمة",
+f1s:"BigInt للأعداد الصحيحة الكبيرة.",
+f2:"رمزي ومركب",
+f2s:"التعابير الرمزية والجذور المركبة.",
+f3:"الدقة",
+f3s:"اختر المنازل العشرية.",
+footer:"يعمل محلياً في المتصفح.",
+realPart:"الجزء الحقيقي a",
+imagPart:"الجزء التخيلي b",
+methodInfo:"الحساب العددي والرمزي.",
+noRoot:"الجذر الزوجي لعدد سالب ليس حقيقياً."
+},
+
+bn:{
+title:"Project-Calculator",
+subtitle:"নির্ভুল ও সংখ্যাত্মক মূল নির্ণয়",
+type:"সমস্যার ধরন",
+real:"বাস্তব মূল",
+complex:"জটিল মূল",
+number:"সংখ্যা বা অভিব্যক্তি",
+degree:"মূলের ঘাত n",
+accuracy:"দশমিক স্থান",
+method:"মোড",
+auto:"স্বয়ংক্রিয়",
+numeric:"সংখ্যাত্মক — Newton",
+analytic:"বিশ্লেষণাত্মক",
+calc:"মূল বের করুন",
+clear:"রিসেট",
+result:"ফলাফল",
+steps:"ধাপ",
+info:"পদ্ধতি",
+ready:"প্রস্তুত",
+exact:"নির্ভুল ফল",
+numericMeta:"Newton সংখ্যাত্মক ফল",
+radical:"বিশ্লেষণাত্মক রূপ",
+f1:"বড় সংখ্যা",
+f1s:"BigInt বড় পূর্ণসংখ্যা ধরে।",
+f2:"প্রতীকী ও জটিল",
+f2s:"প্রতীকী অভিব্যক্তি এবং জটিল মূল।",
+f3:"নির্ভুলতা",
+f3s:"দশমিক স্থান নির্বাচন করুন।",
+footer:"ব্রাউজারেই চলে।",
+realPart:"বাস্তব অংশ a",
+imagPart:"কাল্পনিক অংশ b",
+methodInfo:"সংখ্যাত্মক ও প্রতীকী গণনা।",
+noRoot:"ঋণাত্মক সংখ্যার জোড় ঘাতের মূল বাস্তব নয়।"
+},
+
+pt:{
+title:"Project-Calculator",
+subtitle:"extração exata e numérica de raízes",
+type:"Tipo de problema",
+real:"Raiz real",
+complex:"Raiz complexa",
+number:"Número ou expressão",
+degree:"Grau n",
+accuracy:"Casas decimais",
+method:"Modo",
+auto:"Automático — exato quando possível",
+numeric:"Numérico — Newton",
+analytic:"Analítico — radical / exato",
+calc:"Extrair raiz",
+clear:"Redefinir",
+result:"Resultado",
+steps:"Passos",
+info:"Método",
+ready:"pronto",
+exact:"resultado inteiro exato",
+numericMeta:"resultado numérico por Newton",
+radical:"forma analítica",
+f1:"Números grandes",
+f1s:"BigInt evita arredondamento.",
+f2:"Simbólico e complexo",
+f2s:"Expressões simbólicas e raízes complexas.",
+f3:"Precisão",
+f3s:"Escolha casas decimais.",
+footer:"Funciona localmente no navegador.",
+realPart:"Parte real a",
+imagPart:"Parte imaginária b",
+methodInfo:"Cálculo numérico e simbólico.",
+noRoot:"Uma raiz de grau par de um número negativo não é real."
+},
+
+ur:{
+title:"Project-Calculator",
+subtitle:"درست اور عددی جذر نکالنا",
+type:"مسئلے کی قسم",
+real:"حقیقی جذر",
+complex:"مختلط جذر",
+number:"عدد یا اظہار",
+degree:"جذر کی طاقت n",
+accuracy:"اعشاری ہندسے",
+method:"موڈ",
+auto:"خودکار",
+numeric:"عددی — Newton",
+analytic:"تجزیاتی",
+calc:"جذر نکالیں",
+clear:"ری سیٹ",
+result:"نتیجہ",
+steps:"مراحل",
+info:"طریقہ",
+ready:"تیار",
+exact:"درست نتیجہ",
+numericMeta:"Newton سے عددی نتیجہ",
+radical:"تجزیاتی شکل",
+f1:"بڑے اعداد",
+f1s:"BigInt بڑے صحیح اعداد کے لیے۔",
+f2:"علامتی اور مختلط",
+f2s:"علامتی اظہار اور مختلط جذور۔",
+f3:"درستگی",
+f3s:"اعشاری ہندسے منتخب کریں۔",
+footer:"براؤزر میں مقامی طور پر چلتا ہے۔",
+realPart:"حقیقی حصہ a",
+imagPart:"خیالی حصہ b",
+methodInfo:"عددی اور علامتی حساب۔",
+noRoot:"منفی عدد کا جفت درجے کا جذر حقیقی نہیں ہوتا۔"
+}
+
+};
+
+
+/* =========================================================
+   LANGUAGE SYSTEM
+========================================================= */
+
+function getCustomLanguages(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(CUSTOM_LANG_KEY) || "{}"
+    );
+  }catch(e){
+    return {};
+  }
+}
+
+function saveCustomLanguages(obj){
+  localStorage.setItem(
+    CUSTOM_LANG_KEY,
+    JSON.stringify(obj)
+  );
+}
+
+function rebuildLanguageList(){
+
+  const select = $("language");
+  const custom = getCustomLanguages();
+
+  Object.keys(custom).forEach(code => {
+
+    if(
+      ![...select.options].some(
+        option => option.value === code
+      )
+    ){
+
+      const option = document.createElement("option");
+
+      option.value = code;
+      option.textContent =
+        custom[code].name || code;
+
+      select.appendChild(option);
+    }
+
+  });
+}
+
+function applyLanguage(lang){
+
+  const custom = getCustomLanguages();
+
+  T =
+    custom[lang] ||
+    tr[lang] ||
+    tr.ru;
+
+  const map = {
+    title:"title",
+    subtitle:"subtitle",
+    typeLabel:"type",
+    numberLabel:"number",
+    degreeLabel:"degree",
+    accuracyLabel:"accuracy",
+    methodLabel:"method",
+    calculate:"calc",
+    clear:"clear",
+    resultTitle:"result",
+    stepsTab:"steps",
+    infoTab:"info",
+    f1:"f1",
+    f1s:"f1s",
+    f2:"f2",
+    f2s:"f2s",
+    f3:"f3",
+    f3s:"f3s",
+    footer:"footer",
+    realPartLabel:"realPart",
+    imagPartLabel:"imagPart"
+  };
+
+  Object.keys(map).forEach(id => {
+
+    const el = $(id);
+    const key = map[id];
+
+    if(el && T[key]){
+      el.textContent = T[key];
+    }
+
+  });
+
+  $("type").options[0].text = T.real;
+  $("type").options[1].text = T.complex;
+
+  $("method").options[0].text = T.auto;
+  $("method").options[1].text = T.numeric;
+  $("method").options[2].text = T.analytic;
+
+  $("info").textContent = T.methodInfo;
+
+  document.documentElement.lang = lang;
+
+  document.body.dir =
+    lang === "ar" || lang === "ur"
+      ? "rtl"
+      : "ltr";
+}
+
+
+/* =========================================================
+   BIG INTEGER
+========================================================= */
+
+function bigintPow(a,n){
+
+  let result = 1n;
+  let base = a;
+  let exp = BigInt(n);
+
+  while(exp > 0n){
+
+    if(exp & 1n){
+      result *= base;
+    }
+
+    base *= base;
+    exp >>= 1n;
+  }
+
+  return result;
+}
+
+function integerRootExact(A,n){
+
+  if(A < 0n) return null;
+
+  if(A === 0n) return 0n;
+
+  let lo = 1n;
+  let hi = A;
+
+  while(lo <= hi){
+
+    const mid = (lo + hi) >> 1n;
+    const p = bigintPow(mid,n);
+
+    if(p === A){
+      return mid;
+    }
+
+    if(p < A){
+      lo = mid + 1n;
+    }else{
+      hi = mid - 1n;
+    }
+  }
+
+  return null;
+}
+
+
+/* ================*
 ```
